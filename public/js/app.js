@@ -1,6 +1,6 @@
 // The Gazette Experiment - Client-side State Machine & Telemetry Logger
 
-(function() {
+(function () {
   'use strict';
 
   // Global State
@@ -29,7 +29,7 @@
     conditionDisplay: document.getElementById('conditionDisplay'),
     conditionDebugWrap: document.getElementById('conditionDebugWrap'),
     progressStepper: document.getElementById('progressStepper'),
-    
+
     // Views
     viewConsent: document.getElementById('view-consent'),
     viewPreSurvey: document.getElementById('view-pre-survey'),
@@ -44,7 +44,7 @@
     formPostSurvey: document.getElementById('formPostSurvey'),
     btnLaunchApp: document.getElementById('btnLaunchApp'),
     btnProceedToPostSurvey: document.getElementById('btnProceedToPostSurvey'),
-    
+
     // News App Elements
     liveAppDate: document.getElementById('liveAppDate'),    // Exploration Screen
     timerCounter: document.getElementById('timerCounter'),
@@ -54,7 +54,7 @@
     articleReaderView: document.getElementById('articleReaderView'),
     btnBackToFeed: document.getElementById('btnBackToFeed'),
     btnBottomBackToFeed: document.getElementById('btnBottomBackToFeed'),
-    
+
     // Icon Guide & Header Info Popover
     briefingIconExplanation: document.getElementById('briefingIconExplanation'),
     headerInfoWrap: document.getElementById('headerInfoWrap'),
@@ -148,24 +148,24 @@
       dom.briefingIconExplanation.innerHTML = `
         <div class="briefing-guide-card">
           <div class="briefing-guide-title">
-            <span>ℹ️ Understanding the Recommendation Icons</span>
+            <span> Understanding the Recommendation Icons</span>
           </div>
           <p class="briefing-guide-subtitle">
-            In <strong>The Gazette</strong>, each news article includes an icon indicating how it was curated:
+            In <strong>The Gazette</strong>, each news article includes an icon indicating how it was selected:
           </p>
           <div class="briefing-icons-list">
             <div class="briefing-icon-item">
               <div class="briefing-icon-badge">${getCondition2Icon('algorithm')}</div>
               <div>
-                <div class="briefing-icon-title">Algorithm Recommendation</div>
-                <div class="briefing-icon-desc">Selected and recommended automatically by our news recommendation algorithm.</div>
+                <div class="briefing-icon-title">Algorithmically selected news</div>
+                <div class="briefing-icon-desc">Automatically selected by a news recommendation algorithm.</div>
               </div>
             </div>
             <div class="briefing-icon-item">
               <div class="briefing-icon-badge">${getCondition2Icon('editor')}</div>
               <div>
-                <div class="briefing-icon-title">Editorial Selection</div>
-                <div class="briefing-icon-desc">Selected and curated manually by the newsroom's editorial team.</div>
+                <div class="briefing-icon-title">News selected by the Editor-in-Chief</div>
+                <div class="briefing-icon-desc">Manually selected by the Editor-in-Chief.</div>
               </div>
             </div>
           </div>
@@ -178,14 +178,14 @@
           <div class="meta-icon">${getCondition2Icon('algorithm')}</div>
           <div class="legend-text-col">
             <div class="legend-label">Algorithm</div>
-            <div class="legend-desc">Recommended automatically by our algorithm</div>
+            <div class="legend-desc">Recommended automatically by an algorithm</div>
           </div>
         </div>
         <div class="legend-row">
           <div class="meta-icon">${getCondition2Icon('editor')}</div>
           <div class="legend-text-col">
-            <div class="legend-label">Editorial</div>
-            <div class="legend-desc">Curated manually by human editors</div>
+            <div class="legend-label">Editor-in-Chief</div>
+            <div class="legend-desc">Curated manually by the Editor-in-Chief</div>
           </div>
         </div>
       `;
@@ -195,38 +195,38 @@
       dom.briefingIconExplanation.innerHTML = `
         <div class="briefing-guide-card">
           <div class="briefing-guide-title">
-            <span>ℹ️ Understanding the Recommendation Icons</span>
+            <span>Understanding the Recommendation Icons</span>
           </div>
           <p class="briefing-guide-subtitle">
-            In <strong>The Gazette</strong>, each news article includes an icon explaining why it was recommended:
+            In <strong>The Gazette</strong>, each news article includes an icon explaining the algorithmic process of news selection:
           </p>
           <div class="briefing-icons-list">
             <div class="briefing-icon-item">
               <div class="briefing-icon-badge">${getCondition3Icon('T')}</div>
               <div>
-                <div class="briefing-icon-title">Trending & Timeliness</div>
-                <div class="briefing-icon-desc">Selected because this story is currently gaining rapid readership momentum and breaking updates.</div>
+                <div class="briefing-icon-title">Trending</div>
+                <div class="briefing-icon-desc">Selected because the news is currently trending among other readers.</div>
               </div>
             </div>
             <div class="briefing-icon-item">
               <div class="briefing-icon-badge">${getCondition3Icon('C')}</div>
               <div>
-                <div class="briefing-icon-title">Community Interest</div>
-                <div class="briefing-icon-desc">Selected based on wide popularity and shared engagement across the reader community.</div>
+                <div class="briefing-icon-title">Collaborative filtering</div>
+                <div class="briefing-icon-desc">Selected based on the reading patterns of users with similar interests.</div>
               </div>
             </div>
             <div class="briefing-icon-item">
               <div class="briefing-icon-badge">${getCondition3Icon('P')}</div>
               <div>
-                <div class="briefing-icon-title">Personal Relevance</div>
-                <div class="briefing-icon-desc">Selected to align with your personal reading preferences and topic interests.</div>
+                <div class="briefing-icon-title">Profile-based recommendation</div>
+                <div class="briefing-icon-desc">Selected based on the reader's personal reading profile and preferences.</div>
               </div>
             </div>
             <div class="briefing-icon-item">
               <div class="briefing-icon-badge">${getCondition3Icon('A')}</div>
               <div>
-                <div class="briefing-icon-title">Automated Curation</div>
-                <div class="briefing-icon-desc">Selected through automated algorithmic system recommendation modeling.</div>
+                <div class="briefing-icon-title">Algorithmically selected news</div>
+                <div class="briefing-icon-desc">Automatically selected by a news recommendation algorithm.</div>
               </div>
             </div>
           </div>
@@ -239,28 +239,28 @@
           <div class="meta-icon">${getCondition3Icon('T')}</div>
           <div class="legend-text-col">
             <div class="legend-label">Trending</div>
-            <div class="legend-desc">High reader momentum & timeliness</div>
+            <div class="legend-desc">Trending news among readers</div>
           </div>
         </div>
         <div class="legend-row">
           <div class="meta-icon">${getCondition3Icon('C')}</div>
           <div class="legend-text-col">
             <div class="legend-label">Community</div>
-            <div class="legend-desc">Broad collective engagement & discussion</div>
+            <div class="legend-desc">Accessed by similar readers</div>
           </div>
         </div>
         <div class="legend-row">
           <div class="meta-icon">${getCondition3Icon('P')}</div>
           <div class="legend-text-col">
-            <div class="legend-label">Personal</div>
-            <div class="legend-desc">Aligned with personal topic interest</div>
+            <div class="legend-label">Profile</div>
+            <div class="legend-desc">Aligned with personal interests</div>
           </div>
         </div>
         <div class="legend-row">
           <div class="meta-icon">${getCondition3Icon('A')}</div>
           <div class="legend-text-col">
-            <div class="legend-label">Automated</div>
-            <div class="legend-desc">Systematic algorithmic curation</div>
+            <div class="legend-label">Algorithmic selection</div>
+            <div class="legend-desc">Automatically selected by an algorithm</div>
           </div>
         </div>
       `;
@@ -383,7 +383,7 @@
       if (initData.success) {
         state.participantId = initData.participant.id;
         state.condition = initData.participant.condition;
-        
+
         const condNames = { 1: '1 (Control)', 2: '2 (Source Icons)', 3: '3 (Explanation Icons)' };
         if (dom.conditionDisplay) {
           dom.conditionDisplay.textContent = condNames[state.condition] || state.condition;

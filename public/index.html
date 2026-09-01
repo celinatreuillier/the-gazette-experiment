@@ -58,22 +58,21 @@
         <div class="institution-badge">Academic Research Experiment</div>
         <h1 class="study-title">Information & Consent Form</h1>
         <p class="study-lead">
-          Welcome to this empirical research study investigating user experience and content presentation in digital
-          news mobile applications.
+          Thank you for participating in this study.
         </p>
 
         <h2 class="section-heading">Study Overview & Purpose</h2>
         <div class="legal-scroll-box">
-          <p><strong>Purpose of the Study:</strong> The aim of this research is to understand how readers interact with
-            modern mobile news applications and how different interfaces affect user engagement, comprehension, and
-            experience.</p>
+          <p><strong>Purpose of the Study:</strong> The aim of this experiment is to understand how readers interact
+            with
+            a fictive news app, named The Gazette. </p>
           <br>
-          <p><strong>Procedure:</strong> If you agree to participate, you will:
-            <br>1. Complete a brief baseline questionnaire about your general news reading habits (~2 minutes).
-            <br>2. Explore a simulated mobile news application interface containing recent journalism across technology,
-            science, world events, and culture (~3 minutes).
-            <br>3. Complete a post-study questionnaire regarding your impressions and user experience (~3 minutes).
+          <p><strong>Procedure:</strong> During the experiment, you will:
+            <br>1. Complete a brief pre-study questionnaire regarding your preferences and news habits.
+            <br>2. Freely explore The Gazette.
+            <br>3. Complete a post-study questionnaire regarding your impressions and user experience.
           </p>
+          <br>
           <br>
           <p><strong>Voluntary Participation & Confidentiality:</strong> Your participation is completely voluntary. You
             may withdraw at any moment without penalty. All data collected (reading times, article views, responses) is
@@ -81,8 +80,6 @@
             scientific analysis in accordance with GDPR regulations. No personally identifiable information (PII) is
             recorded.</p>
           <br>
-          <p><strong>Compensation:</strong> Upon completing all steps, you will receive a Prolific completion code and
-            be redirected back to Prolific to claim your reward.</p>
         </div>
 
         <form id="formConsent">
@@ -118,20 +115,22 @@
       <div class="glass-panel">
         <h1 class="study-title">Pre-Study Questionnaire</h1>
         <p class="study-lead">
-          Please answer the following questions regarding your regular habits when reading news.
+          Please answer the following questions regarding your news habits.
         </p>
 
         <form id="formPreSurvey">
           <!-- Q1: Frequency -->
           <div class="question-card">
-            <p class="question-text">1. How often do you read or browse online news?</p>
+            <p class="question-text">1. How often do you read online news?</p>
             <div class="radio-list">
               <label class="radio-item"><input type="radio" name="news_frequency" value="several_times_a_day" required>
                 Several times a day</label>
               <label class="radio-item"><input type="radio" name="news_frequency" value="once_a_day"> Once a day</label>
               <label class="radio-item"><input type="radio" name="news_frequency" value="few_times_a_week"> A few times
                 a week</label>
-              <label class="radio-item"><input type="radio" name="news_frequency" value="rarely_never"> Rarely or
+              <label class="radio-item"><input type="radio" name="news_frequency" value="few_times_a_week"> Less than
+                once a week</label>
+              <label class="radio-item"><input type="radio" name="news_frequency" value="rarely_never"> Never or almost
                 never</label>
             </div>
           </div>
@@ -148,7 +147,7 @@
               <label class="radio-item"><input type="radio" name="primary_device" value="print_other"> Print newspapers
                 / TV / Other</label>
             </div>
-          </div>
+          </div>jnb
 
           <!-- Q3: Preferred Source -->
           <div class="question-card">
@@ -282,11 +281,12 @@
           <!-- Phone Header with Centered The Gazette Logo & Info Icon for Legend -->
           <header class="phone-header" id="phoneHeader">
             <div class="brand-center">
-              <img src="the_gazette_logo.png" alt="THE GAZETTE" class="the-gazette-logo" />
+              <img src="images/the_gazette_logo.png" alt="THE GAZETTE" class="the-gazette-logo" />
             </div>
             <div class="header-info-wrap" id="headerInfoWrap" style="display: none;">
               <button type="button" class="btn-info-icon" id="btnInfoIcon" aria-label="Icon legend" title="Icon guide">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10"></circle>
                   <line x1="12" y1="16" x2="12" y2="12"></line>
                   <line x1="12" y1="8" x2="12.01" y2="8"></line>
@@ -499,7 +499,7 @@
   <!-- =========================================================
        CONDITION 3: INTERACTIVE TRANSPARENCY MODAL
        ========================================================= -->
-  <div class="transparency-modal-overlay" id="transparencyModalOverlay">
+  <!-- <div class="transparency-modal-overlay" id="transparencyModalOverlay">
     <div class="transparency-modal">
       <button class="modal-close-btn" id="btnCloseTransparencyModal">✕</button>
 
@@ -522,7 +522,6 @@
       </h3>
 
       <div id="modalMetricsContainer">
-        <!-- Rendered dynamically -->
       </div>
 
       <h3 style="font-size: 0.95rem; font-weight: 600; color: var(--primary-light); margin: 1.25rem 0 0.75rem;">
@@ -530,10 +529,9 @@
       </h3>
 
       <div id="modalFactorsContainer">
-        <!-- Rendered dynamically -->
       </div>
     </div>
-  </div>
+  </div> -->
 
   <script src="js/app.js"></script>
 </body>
