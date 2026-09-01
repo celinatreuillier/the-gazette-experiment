@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Gazette - Research Study</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22><text y=%2226%22 font-size=%2228%22>📰</text></svg>">
+</head>
+
+<body>
+
+  <div class="study-container">
+
+    <!-- Global Progress Stepper -->
+    <div class="progress-stepper" id="progressStepper">
+      <div class="step-item active" id="step-1">
+        <div class="step-circle">1</div>
+        <span class="step-label">Consent</span>
+      </div>
+      <div class="step-item" id="step-2">
+        <div class="step-circle">2</div>
+        <span class="step-label">Pre-Survey</span>
+      </div>
+      <div class="step-item" id="step-3">
+        <div class="step-circle">3</div>
+        <span class="step-label">News App</span>
+      </div>
+      <div class="step-item" id="step-4">
+        <div class="step-circle">4</div>
+        <span class="step-label">Post-Survey</span>
+      </div>
+      <div class="step-item" id="step-5">
+        <div class="step-circle">5</div>
+        <span class="step-label">Completion</span>
+      </div>
+    </div>
+
+    <!-- Prolific ID Status Indicator -->
+    <!-- <div class="prolific-banner" id="prolificBanner">
+      <div class="id-info">
+        <span>👤 Prolific Participant:</span>
+        <span class="prolific-tag" id="prolificIdDisplay">Loading...</span>
+      </div>
+      <div class="id-info" id="conditionDebugWrap" style="display: none;">
+        <span>Condition:</span>
+        <span class="prolific-tag" id="conditionDisplay">-</span>
+      </div>
+    </div> -->
+
+    <!-- =========================================================
+         VIEW 1: INFORMED CONSENT & LEGAL NOTICE
+         ========================================================= -->
+    <section class="study-view active" id="view-consent">
+      <div class="glass-panel">
+        <div class="institution-badge">Academic Research Experiment</div>
+        <h1 class="study-title">Information & Consent Form</h1>
+        <p class="study-lead">
+          Welcome to this empirical research study investigating user experience and content presentation in digital
+          news mobile applications.
+        </p>
+
+        <h2 class="section-heading">Study Overview & Purpose</h2>
+        <div class="legal-scroll-box">
+          <p><strong>Purpose of the Study:</strong> The aim of this research is to understand how readers interact with
+            modern mobile news applications and how different interfaces affect user engagement, comprehension, and
+            experience.</p>
+          <br>
+          <p><strong>Procedure:</strong> If you agree to participate, you will:
+            <br>1. Complete a brief baseline questionnaire about your general news reading habits (~2 minutes).
+            <br>2. Explore a simulated mobile news application interface containing recent journalism across technology,
+            science, world events, and culture (~3 minutes).
+            <br>3. Complete a post-study questionnaire regarding your impressions and user experience (~3 minutes).
+          </p>
+          <br>
+          <p><strong>Voluntary Participation & Confidentiality:</strong> Your participation is completely voluntary. You
+            may withdraw at any moment without penalty. All data collected (reading times, article views, responses) is
+            strictly anonymized, associated solely with your unique Prolific Participant ID, and stored securely for
+            scientific analysis in accordance with GDPR regulations. No personally identifiable information (PII) is
+            recorded.</p>
+          <br>
+          <p><strong>Compensation:</strong> Upon completing all steps, you will receive a Prolific completion code and
+            be redirected back to Prolific to claim your reward.</p>
+        </div>
+
+        <form id="formConsent">
+          <div class="checkbox-group">
+            <label class="custom-checkbox">
+              <input type="checkbox" id="consentAge" required>
+              <span>I confirm that I am at least 18 years of age.</span>
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" id="consentVoluntary" required>
+              <span>I understand that my participation is voluntary and that my anonymized interaction and survey data
+                will be used for research purposes.</span>
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" id="consentAgree" required>
+              <span>I consent to participate in this research study.</span>
+            </label>
+          </div>
+
+          <div style="text-align: right;">
+            <button type="submit" class="btn-primary" id="btnStartStudy">
+              Agree & Continue →
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         VIEW 2: PRE-QUESTIONNAIRE (NEWS HABITS)
+         ========================================================= -->
+    <section class="study-view" id="view-pre-survey">
+      <div class="glass-panel">
+        <h1 class="study-title">Pre-Study Questionnaire</h1>
+        <p class="study-lead">
+          Please answer the following questions regarding your regular habits when reading news.
+        </p>
+
+        <form id="formPreSurvey">
+          <!-- Q1: Frequency -->
+          <div class="question-card">
+            <p class="question-text">1. How often do you read or browse online news?</p>
+            <div class="radio-list">
+              <label class="radio-item"><input type="radio" name="news_frequency" value="several_times_a_day" required>
+                Several times a day</label>
+              <label class="radio-item"><input type="radio" name="news_frequency" value="once_a_day"> Once a day</label>
+              <label class="radio-item"><input type="radio" name="news_frequency" value="few_times_a_week"> A few times
+                a week</label>
+              <label class="radio-item"><input type="radio" name="news_frequency" value="rarely_never"> Rarely or
+                never</label>
+            </div>
+          </div>
+
+          <!-- Q2: Primary Device -->
+          <div class="question-card">
+            <p class="question-text">2. Which device do you primarily use to read news?</p>
+            <div class="radio-list">
+              <label class="radio-item"><input type="radio" name="primary_device" value="smartphone" required>
+                Smartphone / Mobile app</label>
+              <label class="radio-item"><input type="radio" name="primary_device" value="laptop_desktop"> Laptop /
+                Desktop computer</label>
+              <label class="radio-item"><input type="radio" name="primary_device" value="tablet"> Tablet</label>
+              <label class="radio-item"><input type="radio" name="primary_device" value="print_other"> Print newspapers
+                / TV / Other</label>
+            </div>
+          </div>
+
+          <!-- Q3: Preferred Source -->
+          <div class="question-card">
+            <p class="question-text">3. What is your primary source for discovering news articles?</p>
+            <div class="radio-list">
+              <label class="radio-item"><input type="radio" name="primary_source" value="news_apps_aggregators"
+                  required> News apps & aggregators (Google News, Apple News, etc.)</label>
+              <label class="radio-item"><input type="radio" name="primary_source" value="social_media"> Social media
+                feeds (X / Twitter, Reddit, LinkedIn, Facebook)</label>
+              <label class="radio-item"><input type="radio" name="primary_source" value="direct_publisher"> Directly
+                visiting specific news outlets (NYTimes, BBC, Guardian, etc.)</label>
+              <label class="radio-item"><input type="radio" name="primary_source" value="search_engines"> Search engine
+                queries</label>
+            </div>
+          </div>
+
+          <!-- Q4: Algorithmic Awareness -->
+          <div class="question-card">
+            <p class="question-text">4. How familiar are you with how algorithms curate and recommend articles in news
+              apps?</p>
+            <div class="likert-scale">
+              <label class="likert-option"><input type="radio" name="algorithmic_awareness" value="1"
+                  required><span>1<br>Not at all familiar</span></label>
+              <label class="likert-option"><input type="radio" name="algorithmic_awareness"
+                  value="2"><span>2<br>Slightly familiar</span></label>
+              <label class="likert-option"><input type="radio" name="algorithmic_awareness"
+                  value="3"><span>3<br>Moderately familiar</span></label>
+              <label class="likert-option"><input type="radio" name="algorithmic_awareness" value="4"><span>4<br>Very
+                  familiar</span></label>
+              <label class="likert-option"><input type="radio" name="algorithmic_awareness"
+                  value="5"><span>5<br>Extremely familiar</span></label>
+            </div>
+          </div>
+
+          <div style="text-align: right; margin-top: 2rem;">
+            <button type="submit" class="btn-primary" id="btnSubmitPreSurvey">
+              Submit & Proceed to App Instructions →
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         VIEW 3: BRIEFING & INSTRUCTIONS
+         ========================================================= -->
+    <section class="study-view" id="view-briefing">
+      <div class="glass-panel">
+        <div class="institution-badge"> News App Exploration Phase</div>
+        <h1 class="study-title">News App Exploration Instructions</h1>
+        <p class="study-lead">
+          You are now about to interact with a prototype mobile news application called <strong>The Gazette</strong>.
+        </p>
+
+        <div class="glass-panel subtle" style="margin-bottom: 2rem;">
+          <h2 class="section-heading">Your Task</h2>
+          <ul
+            style="margin-left: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; color: var(--text-secondary);">
+            <li><strong>Freely explore the news feed</strong> as you normally would on your phone. You can scroll
+              through the news using your mouse or trackpad.</li>
+            <li>Look at headlines, headers, and previews, and <strong>click on any articles that catch your
+                interest</strong> to read them.</li>
+            <li>You can return to the main feed at any time using the back button.</li>
+            <li>Please spend at least <strong>2 minutes</strong> exploring the interface. An exploration timer at the
+              top will indicate your progress.</li>
+            <li>Once the minimum exploration time has passed, the button to proceed to the final feedback survey will be
+              unlocked.</li>
+          </ul>
+        </div>
+
+        <!-- Dynamic Condition-Specific Icon Guide for Phase 3 Instructions -->
+        <div id="briefingIconExplanation" style="display: none; margin-bottom: 2rem;"></div>
+
+        <div style="text-align: center;">
+          <button type="button" class="btn-primary" id="btnLaunchApp" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
+            Launch The Gazette
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         VIEW 4: MOBILE NEWS APP EXPLORATION INTERFACE
+         ========================================================= -->
+    <section class="study-view" id="view-app">
+      <div class="app-wrapper">
+
+        <!-- Top Status & Unlock Control Bar -->
+        <div class="app-control-bar">
+          <div class="timer-badge" id="explorationTimerBadge">
+            <span>⏱️ Exploration Time:</span>
+            <strong id="timerCounter">02:00</strong>
+          </div>
+          <button type="button" class="btn-primary" id="btnProceedToPostSurvey" disabled
+            style="padding: 0.4rem 1rem; font-size: 0.85rem;">
+            Continue to Survey →
+          </button>
+        </div>
+
+        <!-- Simulated Mobile Device Container -->
+        <div class="device-frame" id="deviceFrame">
+
+          <!-- Smartphone Status Bar (19:02, Signal, WiFi, Battery) -->
+          <div class="phone-status-bar">
+            <div class="status-time">19:02</div>
+            <div class="status-indicators">
+              <!-- Signal strength -->
+              <svg class="status-icon" width="17" height="11" viewBox="0 0 17 11" fill="currentColor">
+                <rect x="0" y="8" width="2.8" height="3" rx="0.5" />
+                <rect x="4.5" y="5.5" width="2.8" height="5.5" rx="0.5" />
+                <rect x="9" y="3" width="2.8" height="8" rx="0.5" />
+                <rect x="13.5" y="0.5" width="2.8" height="10.5" rx="0.5" />
+              </svg>
+              <!-- WiFi -->
+              <svg class="status-icon" width="15" height="11" viewBox="0 0 15 11" fill="none" stroke="currentColor"
+                stroke-width="1.6" stroke-linecap="round">
+                <path d="M1 2.5C4.5 -0.5 10.5 -0.5 14 2.5" />
+                <path d="M3.5 5.5C5.8 3.5 9.2 3.5 11.5 5.5" />
+                <circle cx="7.5" cy="9.2" r="1.1" fill="currentColor" />
+              </svg>
+              <!-- Battery -->
+              <svg class="status-icon" width="22" height="11" viewBox="0 0 22 11" fill="none" stroke="currentColor"
+                stroke-width="1.3">
+                <rect x="0.8" y="0.8" width="17.4" height="9.4" rx="2.5" />
+                <rect x="2.5" y="2.5" width="12" height="6" rx="1.2" fill="currentColor" />
+                <path d="M19.5 3.5V7.5" stroke-linecap="round" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Phone Header with Centered The Gazette Logo & Info Icon for Legend -->
+          <header class="phone-header" id="phoneHeader">
+            <div class="brand-center">
+              <img src="the_gazette_logo.png" alt="THE GAZETTE" class="the-gazette-logo" />
+            </div>
+            <div class="header-info-wrap" id="headerInfoWrap" style="display: none;">
+              <button type="button" class="btn-info-icon" id="btnInfoIcon" aria-label="Icon legend" title="Icon guide">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+              </button>
+              <div class="info-legend-popover" id="infoLegendPopover">
+                <div class="legend-popover-title">Icon Guide</div>
+                <div class="legend-popover-content" id="legendPopoverContent">
+                  <!-- Populated dynamically via JS based on condition -->
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <!-- 1. News Feed View (Scrollable) -->
+          <main class="feed-content" id="feedContent">
+            <!-- News cards dynamically rendered via JavaScript -->
+          </main>
+
+          <!-- 2. Full Article Reader View (Hidden by default) -->
+          <article class="article-reader-view" id="articleReaderView">
+            <div class="reader-nav">
+              <button type="button" class="btn-back-feed" id="btnBackToFeed">
+                ← Back
+              </button>
+              <div id="readerBadgeHook"></div>
+            </div>
+
+            <h1 class="reader-title" id="readerTitle">Article Title</h1>
+            <div class="reader-header-text" id="readerHeaderText"></div>
+
+            <div class="reader-body-text" id="readerBodyText">
+              <!-- Paragraphs rendered dynamically -->
+            </div>
+
+            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; text-align: center;">
+              <button type="button" class="btn-secondary" id="btnBottomBackToFeed"
+                style="width: 100%; justify-content: center; background: #f3f4f6; color: #111; border-color: #d1d5db;">
+                ← Back to Feed
+              </button>
+            </div>
+          </article>
+
+          <!-- Phone Home Indicator Bar at Bottom -->
+          <div class="phone-home-indicator-bar">
+            <div class="home-indicator"></div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         VIEW 5: POST-QUESTIONNAIRE (EVALUATION & TRUST)
+         ========================================================= -->
+    <section class="study-view" id="view-post-survey">
+      <div class="glass-panel">
+        <h1 class="study-title">Post-Study Evaluation</h1>
+        <p class="study-lead">
+          Thank you for exploring the app! Please share your thoughts on the interface you just tested.
+        </p>
+
+        <form id="formPostSurvey">
+
+          <!-- Q1: Algorithmic Transparency Clarity -->
+          <div class="question-card">
+            <p class="question-text">1. The interface made it clear why specific news articles were selected and
+              recommended in my feed.</p>
+            <div class="likert-scale">
+              <label class="likert-option"><input type="radio" name="transparency_clarity" value="1"
+                  required><span>1<br>Strongly Disagree</span></label>
+              <label class="likert-option"><input type="radio" name="transparency_clarity"
+                  value="2"><span>2<br>Disagree</span></label>
+              <label class="likert-option"><input type="radio" name="transparency_clarity"
+                  value="3"><span>3<br>Neutral</span></label>
+              <label class="likert-option"><input type="radio" name="transparency_clarity"
+                  value="4"><span>4<br>Agree</span></label>
+              <label class="likert-option"><input type="radio" name="transparency_clarity" value="5"><span>5<br>Strongly
+                  Agree</span></label>
+            </div>
+          </div>
+
+          <!-- Q2: Trust in Recommendations -->
+          <div class="question-card">
+            <p class="question-text">2. I felt confident in the credibility and balance of the articles selected by this
+              news app.</p>
+            <div class="likert-scale">
+              <label class="likert-option"><input type="radio" name="trust_recommendations" value="1"
+                  required><span>1<br>Strongly Disagree</span></label>
+              <label class="likert-option"><input type="radio" name="trust_recommendations"
+                  value="2"><span>2<br>Disagree</span></label>
+              <label class="likert-option"><input type="radio" name="trust_recommendations"
+                  value="3"><span>3<br>Neutral</span></label>
+              <label class="likert-option"><input type="radio" name="trust_recommendations"
+                  value="4"><span>4<br>Agree</span></label>
+              <label class="likert-option"><input type="radio" name="trust_recommendations"
+                  value="5"><span>5<br>Strongly Agree</span></label>
+            </div>
+          </div>
+
+          <!-- Q3: Perceived Fairness & Control -->
+          <div class="question-card">
+            <p class="question-text">3. I felt that the selection process was fair and unbiased rather than
+              manipulative.</p>
+            <div class="likert-scale">
+              <label class="likert-option"><input type="radio" name="perceived_fairness" value="1"
+                  required><span>1<br>Strongly Disagree</span></label>
+              <label class="likert-option"><input type="radio" name="perceived_fairness"
+                  value="2"><span>2<br>Disagree</span></label>
+              <label class="likert-option"><input type="radio" name="perceived_fairness"
+                  value="3"><span>3<br>Neutral</span></label>
+              <label class="likert-option"><input type="radio" name="perceived_fairness"
+                  value="4"><span>4<br>Agree</span></label>
+              <label class="likert-option"><input type="radio" name="perceived_fairness" value="5"><span>5<br>Strongly
+                  Agree</span></label>
+            </div>
+          </div>
+
+          <!-- Q4: Usability and Cognitive Load -->
+          <div class="question-card">
+            <p class="question-text">4. The news app interface was intuitive, easy to navigate, and uncluttered.</p>
+            <div class="likert-scale">
+              <label class="likert-option"><input type="radio" name="usability_ease" value="1"
+                  required><span>1<br>Strongly Disagree</span></label>
+              <label class="likert-option"><input type="radio" name="usability_ease"
+                  value="2"><span>2<br>Disagree</span></label>
+              <label class="likert-option"><input type="radio" name="usability_ease"
+                  value="3"><span>3<br>Neutral</span></label>
+              <label class="likert-option"><input type="radio" name="usability_ease"
+                  value="4"><span>4<br>Agree</span></label>
+              <label class="likert-option"><input type="radio" name="usability_ease" value="5"><span>5<br>Strongly
+                  Agree</span></label>
+            </div>
+          </div>
+
+          <!-- Q5: Overall Satisfaction -->
+          <div class="question-card">
+            <p class="question-text">5. Overall, how satisfied were you with your news reading experience in this
+              application?</p>
+            <div class="likert-scale">
+              <label class="likert-option"><input type="radio" name="overall_satisfaction" value="1"
+                  required><span>1<br>Very Dissatisfied</span></label>
+              <label class="likert-option"><input type="radio" name="overall_satisfaction"
+                  value="2"><span>2<br>Dissatisfied</span></label>
+              <label class="likert-option"><input type="radio" name="overall_satisfaction"
+                  value="3"><span>3<br>Neutral</span></label>
+              <label class="likert-option"><input type="radio" name="overall_satisfaction"
+                  value="4"><span>4<br>Satisfied</span></label>
+              <label class="likert-option"><input type="radio" name="overall_satisfaction" value="5"><span>5<br>Very
+                  Satisfied</span></label>
+            </div>
+          </div>
+
+          <!-- Q6: Qualitative Open Feedback -->
+          <div class="question-card">
+            <p class="question-text">6. (Optional) What did you notice or feel about how articles were curated and
+              presented to you?</p>
+            <textarea class="form-textarea" name="open_feedback"
+              placeholder="Write any additional observations or comments here..."></textarea>
+          </div>
+
+          <div style="text-align: right; margin-top: 2rem;">
+            <button type="submit" class="btn-primary" id="btnSubmitPostSurvey">
+              Submit & Complete Study →
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         VIEW 6: STUDY COMPLETION & PROLIFIC REDIRECT
+         ========================================================= -->
+    <section class="study-view" id="view-completion">
+      <div class="glass-panel" style="text-align: center;">
+        <div style="font-size: 3.5rem; margin-bottom: 1rem;">🎉</div>
+        <h1 class="study-title">Study Completed!</h1>
+        <p class="study-lead">
+          Thank you for your valuable participation in our empirical research study.
+        </p>
+
+        <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 1.5rem;">
+          Your responses and interaction telemetry have been safely recorded. Please copy the completion code below or
+          click the button to finish your submission on Prolific.
+        </p>
+
+        <div class="completion-code-box">
+          <span
+            style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Prolific
+            Completion Code</span>
+          <div class="code-display" id="finalCompletionCode">C19X8A9L</div>
+          <button type="button" class="btn-secondary" id="btnCopyCode" style="font-size: 0.85rem;">
+            📋 Copy Code
+          </button>
+        </div>
+
+        <div style="margin-top: 2rem;">
+          <a href="#" target="_blank" class="btn-primary" id="btnProlificRedirect"
+            style="font-size: 1.1rem; padding: 1rem 2rem;">
+            Return to Prolific & Claim Reward →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- =========================================================
+       CONDITION 3: INTERACTIVE TRANSPARENCY MODAL
+       ========================================================= -->
+  <div class="transparency-modal-overlay" id="transparencyModalOverlay">
+    <div class="transparency-modal">
+      <button class="modal-close-btn" id="btnCloseTransparencyModal">✕</button>
+
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+        <span style="font-size: 1.5rem;">🧠</span>
+        <div>
+          <h2 style="font-size: 1.25rem; font-weight: 700; color: #fff;">Algorithmic Selection Breakdown</h2>
+          <span style="font-size: 0.8rem; color: #c084fc;">Transparent Recommendation Engine</span>
+        </div>
+      </div>
+
+      <div class="glass-panel subtle" style="margin-bottom: 1.25rem; padding: 1rem;">
+        <p style="font-size: 0.85rem; color: #e2e8f0;" id="modalExplanationText">
+          Loading algorithmic selection metrics...
+        </p>
+      </div>
+
+      <h3 style="font-size: 0.95rem; font-weight: 600; color: var(--primary-light); margin-bottom: 0.75rem;">
+        📊 Key Selection Signals
+      </h3>
+
+      <div id="modalMetricsContainer">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <h3 style="font-size: 0.95rem; font-weight: 600; color: var(--primary-light); margin: 1.25rem 0 0.75rem;">
+        ⚖️ Decision Weight Factors
+      </h3>
+
+      <div id="modalFactorsContainer">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+
+</html>

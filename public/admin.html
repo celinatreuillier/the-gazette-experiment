@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Gazette Experiment - Researcher Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .stat-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .condition-balance-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .balance-card {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      text-align: center;
+    }
+    .balance-card.highlight {
+      border-color: rgba(59, 130, 246, 0.5);
+      background: rgba(59, 130, 246, 0.08);
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin-top: 1rem;
+    }
+    .data-table th, .data-table td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .data-table th {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+    .data-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .badge-status {
+      display: inline-block;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .badge-status.completed {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .badge-status.in_progress {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+    .export-buttons-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-container">
+    
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem;">
+      <div>
+        <div class="institution-badge">📊 Researcher Admin Portal</div>
+        <h1 class="study-title" style="margin-bottom: 0.25rem;">Experiment Monitoring & Analytics</h1>
+        <p style="color: var(--text-secondary); font-size: 0.95rem;">
+          Real-time condition balance, telemetry tracking, and export center.
+        </p>
+      </div>
+      <div style="display: flex; gap: 0.75rem;">
+        <a href="/" target="_blank" class="btn-secondary">🔗 Open Study Preview</a>
+        <button id="btnRefreshStats" class="btn-primary">🔄 Refresh Data</button>
+      </div>
+    </div>
+
+    <!-- Stats Counters -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-label">Total Participants</span>
+        <div class="stat-value" id="statTotalParticipants">0</div>
+        <span style="font-size: 0.8rem; color: #34d399;" id="statCompletedParticipants">0 completed</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Interaction Events Logged</span>
+        <div class="stat-value" id="statTotalEvents">0</div>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">Clicks, dwells, scrolls, tabs</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Surveys Submitted</span>
+        <div class="stat-value" id="statTotalSurveys">0</div>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">Pre & Post responses</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Min Exploration Target</span>
+        <div class="stat-value" id="statMinTime">120s</div>
+        <span style="font-size: 0.8rem; color: #60a5fa;">Configured threshold</span>
+      </div>
+    </div>
+
+    <!-- Balanced Random Assignment Monitor -->
+    <div class="glass-panel">
+      <h2 class="section-heading">⚖️ Condition Randomization Balance (3 Groups)</h2>
+      <p style="color: var(--text-secondary); font-size: 0.9rem;">
+        The system employs min-count balanced allocation to guarantee equal participant counts across all three versions.
+      </p>
+
+      <div class="condition-balance-bar" id="conditionBalanceContainer">
+        <div class="balance-card">
+          <h3 style="font-size: 1rem; color: #94a3b8; margin-bottom: 0.5rem;">Condition 1: Baseline</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Standard Feed (Control)</p>
+          <div style="font-size: 1.8rem; font-weight: 700; color: #fff;" id="cond1Count">0</div>
+          <span style="font-size: 0.75rem; color: #34d399;" id="cond1Completed">0 finished</span>
+        </div>
+        <div class="balance-card">
+          <h3 style="font-size: 1rem; color: #60a5fa; margin-bottom: 0.5rem;">Condition 2: Badges</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Categorical Badges</p>
+          <div style="font-size: 1.8rem; font-weight: 700; color: #60a5fa;" id="cond2Count">0</div>
+          <span style="font-size: 0.75rem; color: #34d399;" id="cond2Completed">0 finished</span>
+        </div>
+        <div class="balance-card">
+          <h3 style="font-size: 1rem; color: #c084fc; margin-bottom: 0.5rem;">Condition 3: Transparency</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Interactive Rationale & Metrics</p>
+          <div style="font-size: 1.8rem; font-weight: 700; color: #c084fc;" id="cond3Count">0</div>
+          <span style="font-size: 0.75rem; color: #34d399;" id="cond3Completed">0 finished</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Export Center -->
+    <div class="glass-panel">
+      <h2 class="section-heading">📥 Data Export Center</h2>
+      <p style="color: var(--text-secondary); font-size: 0.9rem;">
+        Download structured, pre-cleaned datasets formatted for statistical analysis in R, Python (Pandas), SPSS, or Excel.
+      </p>
+
+      <div class="export-buttons-row">
+        <a href="/api/admin/export/csv" class="btn-primary" download>
+          📑 Master Analysis Dataset (CSV)
+        </a>
+        <a href="/api/admin/export/csv?type=participants" class="btn-secondary" download>
+          👤 Participants (CSV)
+        </a>
+        <a href="/api/admin/export/csv?type=surveys" class="btn-secondary" download>
+          📝 Survey Responses (CSV)
+        </a>
+        <a href="/api/admin/export/csv?type=events" class="btn-secondary" download>
+          ⚡ Raw Telemetry Events (CSV)
+        </a>
+        <a href="/api/admin/export/json" class="btn-secondary" download>
+          📦 Full JSON Dump
+        </a>
+      </div>
+    </div>
+
+    <!-- Recent Participants Table -->
+    <div class="glass-panel">
+      <h2 class="section-heading">👥 Recent Participants</h2>
+      <div style="overflow-x: auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Prolific PID</th>
+              <th>Condition</th>
+              <th>Status</th>
+              <th>Started At</th>
+              <th>Completed At</th>
+            </tr>
+          </thead>
+          <tbody id="participantsTableBody">
+            <tr>
+              <td colspan="6" style="text-align: center; color: var(--text-muted);">Loading participants...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>
