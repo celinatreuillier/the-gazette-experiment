@@ -73,7 +73,6 @@
             <br>3. Complete a post-study questionnaire regarding your impressions and user experience.
           </p>
           <br>
-          <br>
           <p><strong>Voluntary Participation & Confidentiality:</strong> Your participation is completely voluntary. You
             may withdraw at any moment without penalty. All data collected (reading times, article views, responses) is
             strictly anonymized, associated solely with your unique Prolific Participant ID, and stored securely for
@@ -109,76 +108,477 @@
     </section>
 
     <!-- =========================================================
-         VIEW 2: PRE-QUESTIONNAIRE (NEWS HABITS)
+         VIEW 2: PRE-QUESTIONNAIRE (NEWS HABITS & PREFERENCES)
          ========================================================= -->
     <section class="study-view" id="view-pre-survey">
       <div class="glass-panel">
         <h1 class="study-title">Pre-Study Questionnaire</h1>
         <p class="study-lead">
-          Please answer the following questions regarding your news habits.
+          Please answer the following questions regarding your news reading habits and preferences.
         </p>
 
         <form id="formPreSurvey">
           <!-- Q1: Frequency -->
           <div class="question-card">
             <p class="question-text">1. How often do you read online news?</p>
-            <div class="radio-list">
-              <label class="radio-item"><input type="radio" name="news_frequency" value="several_times_a_day" required>
-                Several times a day</label>
-              <label class="radio-item"><input type="radio" name="news_frequency" value="once_a_day"> Once a day</label>
-              <label class="radio-item"><input type="radio" name="news_frequency" value="few_times_a_week"> A few times
-                a week</label>
-              <label class="radio-item"><input type="radio" name="news_frequency" value="few_times_a_week"> Less than
-                once a week</label>
-              <label class="radio-item"><input type="radio" name="news_frequency" value="rarely_never"> Never or almost
-                never</label>
-            </div>
-          </div>
-
-          <!-- Q2: Primary Device -->
-          <div class="question-card">
-            <p class="question-text">2. Which device do you primarily use to read news?</p>
-            <div class="radio-list">
-              <label class="radio-item"><input type="radio" name="primary_device" value="smartphone" required>
-                Smartphone / Mobile app</label>
-              <label class="radio-item"><input type="radio" name="primary_device" value="laptop_desktop"> Laptop /
-                Desktop computer</label>
-              <label class="radio-item"><input type="radio" name="primary_device" value="tablet"> Tablet</label>
-              <label class="radio-item"><input type="radio" name="primary_device" value="print_other"> Print newspapers
-                / TV / Other</label>
-            </div>
-          </div>jnb
-
-          <!-- Q3: Preferred Source -->
-          <div class="question-card">
-            <p class="question-text">3. What is your primary source for discovering news articles?</p>
-            <div class="radio-list">
-              <label class="radio-item"><input type="radio" name="primary_source" value="news_apps_aggregators"
-                  required> News apps & aggregators (Google News, Apple News, etc.)</label>
-              <label class="radio-item"><input type="radio" name="primary_source" value="social_media"> Social media
-                feeds (X / Twitter, Reddit, LinkedIn, Facebook)</label>
-              <label class="radio-item"><input type="radio" name="primary_source" value="direct_publisher"> Directly
-                visiting specific news outlets (NYTimes, BBC, Guardian, etc.)</label>
-              <label class="radio-item"><input type="radio" name="primary_source" value="search_engines"> Search engine
-                queries</label>
-            </div>
-          </div>
-
-          <!-- Q4: Algorithmic Awareness -->
-          <div class="question-card">
-            <p class="question-text">4. How familiar are you with how algorithms curate and recommend articles in news
-              apps?</p>
             <div class="likert-scale">
-              <label class="likert-option"><input type="radio" name="algorithmic_awareness" value="1"
-                  required><span>1<br>Not at all familiar</span></label>
-              <label class="likert-option"><input type="radio" name="algorithmic_awareness"
-                  value="2"><span>2<br>Slightly familiar</span></label>
-              <label class="likert-option"><input type="radio" name="algorithmic_awareness"
-                  value="3"><span>3<br>Moderately familiar</span></label>
-              <label class="likert-option"><input type="radio" name="algorithmic_awareness" value="4"><span>4<br>Very
-                  familiar</span></label>
-              <label class="likert-option"><input type="radio" name="algorithmic_awareness"
-                  value="5"><span>5<br>Extremely familiar</span></label>
+              <label class="likert-option">
+                <input type="radio" name="news_frequency" value="1" required>
+                <span><strong>1</strong><br>Never or almost never</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="news_frequency" value="2">
+                <span><strong>2</strong><br>Less than once a week</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="news_frequency" value="3">
+                <span><strong>3</strong><br>A few times a week</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="news_frequency" value="4">
+                <span><strong>4</strong><br>Once a day</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="news_frequency" value="5">
+                <span><strong>5</strong><br>Several times a day</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q2: Topic Interests -->
+          <div class="question-card">
+            <p class="question-text">2. How interested are you in the following news topics?</p>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 0.75rem;">
+              Rate each topic from <strong>1 (Not interested at all)</strong> to <strong>5 (Very interested)</strong>.
+            </p>
+            <div class="matrix-container">
+              <table class="matrix-table">
+                <thead>
+                  <tr>
+                    <th class="matrix-item-col">News Topic</th>
+                    <th class="matrix-scale-col"><span class="matrix-scale-num">1</span><span
+                        class="matrix-scale-label">Not interested at all</span></th>
+                    <th class="matrix-scale-col"><span class="matrix-scale-num">2</span><span
+                        class="matrix-scale-label">Slightly interested</span></th>
+                    <th class="matrix-scale-col"><span class="matrix-scale-num">3</span><span
+                        class="matrix-scale-label">Moderately interested</span></th>
+                    <th class="matrix-scale-col"><span class="matrix-scale-num">4</span><span
+                        class="matrix-scale-label">Interested</span></th>
+                    <th class="matrix-scale-col"><span class="matrix-scale-num">5</span><span
+                        class="matrix-scale-label">Very interested</span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="matrix-item-label">Politics and public affairs</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_politics" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_politics" value="2"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_politics" value="3"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_politics" value="4"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_politics" value="5"></label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">Economy and business</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_economy" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_economy" value="2"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_economy" value="3"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_economy" value="4"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_economy" value="5"></label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">Health</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_health" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_health" value="2"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_health" value="3"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_health" value="4"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_health" value="5"></label></td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">Science and technology</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_science_tech" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_science_tech"
+                          value="2"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_science_tech"
+                          value="3"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_science_tech"
+                          value="4"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_science_tech"
+                          value="5"></label></td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">Environment and climate</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_environment" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_environment" value="2"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_environment" value="3"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_environment" value="4"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_environment" value="5"></label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">Education</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_education" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_education" value="2"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_education" value="3"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_education" value="4"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_education" value="5"></label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">Culture</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_culture" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_culture" value="2"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_culture" value="3"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_culture" value="4"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_culture" value="5"></label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">Lifestyle</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_lifestyle" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_lifestyle" value="2"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_lifestyle" value="3"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_lifestyle" value="4"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_lifestyle" value="5"></label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">Sports</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_sports" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_sports" value="2"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_sports" value="3"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_sports" value="4"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_sports" value="5"></label></td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">Travel</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_travel" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_travel" value="2"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_travel" value="3"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_travel" value="4"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_travel" value="5"></label></td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">Food</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_food" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_food" value="2"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_food" value="3"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_food" value="4"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_food" value="5"></label></td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">Crime and public safety</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_crime" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_crime" value="2"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_crime" value="3"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_crime" value="4"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_crime" value="5"></label></td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">Local/community news</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_local" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_local" value="2"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_local" value="3"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_local" value="4"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_local" value="5"></label></td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">International news</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_international" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_international"
+                          value="2"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_international"
+                          value="3"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_international"
+                          value="4"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="topic_international"
+                          value="5"></label></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Q3: Goals when choosing news -->
+          <div class="question-card">
+            <p class="question-text">3. When choosing news, what kind of article are you usually looking for?</p>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 0.75rem;">
+              Rate each from <strong>1 (Not important to me)</strong> to <strong>5 (Very important to me)</strong>.
+            </p>
+            <div class="matrix-container">
+              <table class="matrix-table">
+                <thead>
+                  <tr>
+                    <th class="matrix-item-col">Article Type / Goal</th>
+                    <th class="matrix-scale-col"><span class="matrix-scale-num">1</span><span
+                        class="matrix-scale-label">Not important to me</span></th>
+                    <th class="matrix-scale-col"><span class="matrix-scale-num">2</span><span
+                        class="matrix-scale-label">Slightly important</span></th>
+                    <th class="matrix-scale-col"><span class="matrix-scale-num">3</span><span
+                        class="matrix-scale-label">Moderately important</span></th>
+                    <th class="matrix-scale-col"><span class="matrix-scale-num">4</span><span
+                        class="matrix-scale-label">Important</span></th>
+                    <th class="matrix-scale-col"><span class="matrix-scale-num">5</span><span
+                        class="matrix-scale-label">Very important to me</span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="matrix-item-label">An article that helps me stay updated</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_stay_updated" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_stay_updated" value="2"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_stay_updated" value="3"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_stay_updated" value="4"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_stay_updated" value="5"></label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">An article that helps me understand an issue</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_understand_issue" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_understand_issue"
+                          value="2"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_understand_issue"
+                          value="3"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_understand_issue"
+                          value="4"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_understand_issue"
+                          value="5"></label></td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">An article that gives me a broader perspective</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_broader_perspective" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_broader_perspective"
+                          value="2"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_broader_perspective"
+                          value="3"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_broader_perspective"
+                          value="4"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_broader_perspective"
+                          value="5"></label></td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">An article that is entertaining</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_entertaining" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_entertaining" value="2"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_entertaining" value="3"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_entertaining" value="4"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_entertaining" value="5"></label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">An article that is inspiring or constructive</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_inspiring_constructive"
+                          value="1" required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_inspiring_constructive"
+                          value="2"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_inspiring_constructive"
+                          value="3"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_inspiring_constructive"
+                          value="4"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_inspiring_constructive"
+                          value="5"></label></td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">An article that helps me follow current trends</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_follow_trends" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_follow_trends"
+                          value="2"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_follow_trends"
+                          value="3"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_follow_trends"
+                          value="4"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="goal_follow_trends"
+                          value="5"></label></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Q4: Decision Elements -->
+          <div class="question-card">
+            <p class="question-text">4. When you decide whether to open a news article, how important are the following
+              elements?</p>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 0.75rem;">
+              Rate each from <strong>1 (Not important)</strong> to <strong>5 (Very important)</strong>.
+            </p>
+            <div class="matrix-container">
+              <table class="matrix-table">
+                <thead>
+                  <tr>
+                    <th class="matrix-item-col">Decision Element</th>
+                    <th class="matrix-scale-col"><span class="matrix-scale-num">1</span><span
+                        class="matrix-scale-label">Not important</span></th>
+                    <th class="matrix-scale-col"><span class="matrix-scale-num">2</span><span
+                        class="matrix-scale-label">Slightly important</span></th>
+                    <th class="matrix-scale-col"><span class="matrix-scale-num">3</span><span
+                        class="matrix-scale-label">Moderately important</span></th>
+                    <th class="matrix-scale-col"><span class="matrix-scale-num">4</span><span
+                        class="matrix-scale-label">Important</span></th>
+                    <th class="matrix-scale-col"><span class="matrix-scale-num">5</span><span
+                        class="matrix-scale-label">Very important</span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="matrix-item-label">The topic</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_topic" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_topic" value="2"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_topic" value="3"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_topic" value="4"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_topic" value="5"></label></td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">The title</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_title" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_title" value="2"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_title" value="3"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_title" value="4"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_title" value="5"></label></td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">The short description</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_short_desc" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_short_desc" value="2"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_short_desc" value="3"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_short_desc" value="4"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_short_desc" value="5"></label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">The source/publication</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_source" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_source" value="2"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_source" value="3"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_source" value="4"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_source" value="5"></label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">Whether the article seems useful</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_useful" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_useful" value="2"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_useful" value="3"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_useful" value="4"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_useful" value="5"></label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">Whether the article seems original or different</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_original" value="1"
+                          required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_original" value="2"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_original" value="3"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_original" value="4"></label>
+                    </td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_original" value="5"></label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="matrix-item-label">Whether the article seems emotionally engaging</td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_emotionally_engaging"
+                          value="1" required></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_emotionally_engaging"
+                          value="2"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_emotionally_engaging"
+                          value="3"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_emotionally_engaging"
+                          value="4"></label></td>
+                    <td class="matrix-radio-cell"><label><input type="radio" name="decide_emotionally_engaging"
+                          value="5"></label></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Q5: Use of Personalized Recommendations Online -->
+          <div class="question-card">
+            <p class="question-text">5. How often do you use personalized recommendations online?</p>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 0.75rem;">
+              This can include news websites, video platforms, music apps, shopping websites, or social media feeds.
+            </p>
+            <div class="likert-scale">
+              <label class="likert-option">
+                <input type="radio" name="recommendation_frequency" value="1" required>
+                <span><strong>1</strong><br>Never</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="recommendation_frequency" value="2">
+                <span><strong>2</strong><br>Rarely</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="recommendation_frequency" value="3">
+                <span><strong>3</strong><br>Sometimes</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="recommendation_frequency" value="4">
+                <span><strong>4</strong><br>Often</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="recommendation_frequency" value="5">
+                <span><strong>5</strong><br>Very often</span>
+              </label>
             </div>
           </div>
 
@@ -199,7 +599,7 @@
         <div class="institution-badge"> News App Exploration Phase</div>
         <h1 class="study-title">News App Exploration Instructions</h1>
         <p class="study-lead">
-          You are now about to interact with a prototype mobile news application called <strong>The Gazette</strong>.
+          You are now about to interact with a news app called <strong>The Gazette</strong>.
         </p>
 
         <div class="glass-panel subtle" style="margin-bottom: 2rem;">
@@ -208,8 +608,7 @@
             style="margin-left: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; color: var(--text-secondary);">
             <li><strong>Freely explore the news feed</strong> as you normally would on your phone. You can scroll
               through the news using your mouse or trackpad.</li>
-            <li>Look at headlines, headers, and previews, and <strong>click on any articles that catch your
-                interest</strong> to read them.</li>
+            <li><strong>Click on any articles that catch your interest</strong> to read them.</li>
             <li>You can return to the main feed at any time using the back button.</li>
             <li>Please spend at least <strong>2 minutes</strong> exploring the interface. An exploration timer at the
               top will indicate your progress.</li>
@@ -238,12 +637,12 @@
         <!-- Top Status & Unlock Control Bar -->
         <div class="app-control-bar">
           <div class="timer-badge" id="explorationTimerBadge">
-            <span>⏱️ Exploration Time:</span>
+            <span>Exploration Time:</span>
             <strong id="timerCounter">02:00</strong>
           </div>
           <button type="button" class="btn-primary" id="btnProceedToPostSurvey" disabled
-            style="padding: 0.4rem 1rem; font-size: 0.85rem;">
-            Continue to Survey →
+            style="padding: 1rem 1rem; font-size: 0.85rem;">
+            Continue to Survey
           </button>
         </div>
 
@@ -322,12 +721,12 @@
               <!-- Paragraphs rendered dynamically -->
             </div>
 
-            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; text-align: center;">
+            <!-- <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; text-align: center;">
               <button type="button" class="btn-secondary" id="btnBottomBackToFeed"
                 style="width: 100%; justify-content: center; background: #f3f4f6; color: #111; border-color: #d1d5db;">
                 ← Back to Feed
               </button>
-            </div>
+            </div> -->
           </article>
 
           <!-- Phone Home Indicator Bar at Bottom -->

@@ -9,17 +9,16 @@ if (!fs.existsSync(DATA_DIR)) {
 
 const DB_PATH = path.join(DATA_DIR, 'experiment.db');
 
-// Attempt to use native node:sqlite (Node 22.5+) with better-sqlite3 fallback
+// Initialize database with better-sqlite3 (with node:sqlite fallback)
 let db;
 try {
-  const { DatabaseSync } = require('node:sqlite');
-  const syncDb = new DatabaseSync(DB_PATH);
-  
-  // Create wrapper interface for seamless execution
+  const Database = require('better-sqlite3');
+  const bDb = new Database(DB_PATH);
+  bDb.pragma('journal_mode = WAL');
   db = {
-    exec: (sql) => syncDb.exec(sql),
+    exec: (sql) => bDb.exec(sql),
     prepare: (sql) => {
-      const stmt = syncDb.prepare(sql);
+      const stmt = bDb.prepare(sql);
       return {
         run: (...params) => stmt.run(...params),
         get: (...params) => stmt.get(...params),
@@ -27,15 +26,15 @@ try {
       };
     }
   };
-  console.log('[DB] Using native node:sqlite database at', DB_PATH);
+  console.log('[DB] Using better-sqlite3 database at', DB_PATH);
 } catch (err) {
-  console.log('[DB] Falling back to better-sqlite3:', err.message);
-  const Database = require('better-sqlite3');
-  const bDb = new Database(DB_PATH);
+  console.log('[DB] Falling back to node:sqlite:', err.message);
+  const { DatabaseSync } = require('node:sqlite');
+  const syncDb = new DatabaseSync(DB_PATH);
   db = {
-    exec: (sql) => bDb.exec(sql),
+    exec: (sql) => syncDb.exec(sql),
     prepare: (sql) => {
-      const stmt = bDb.prepare(sql);
+      const stmt = syncDb.prepare(sql);
       return {
         run: (...params) => stmt.run(...params),
         get: (...params) => stmt.get(...params),

@@ -148,7 +148,7 @@
       dom.briefingIconExplanation.innerHTML = `
         <div class="briefing-guide-card">
           <div class="briefing-guide-title">
-            <span> Understanding the Recommendation Icons</span>
+            <span> Understanding the Icons</span>
           </div>
           <p class="briefing-guide-subtitle">
             In <strong>The Gazette</strong>, each news article includes an icon indicating how it was selected:
@@ -195,7 +195,7 @@
       dom.briefingIconExplanation.innerHTML = `
         <div class="briefing-guide-card">
           <div class="briefing-guide-title">
-            <span>Understanding the Recommendation Icons</span>
+            <span>Understanding the Icons</span>
           </div>
           <p class="briefing-guide-subtitle">
             In <strong>The Gazette</strong>, each news article includes an icon explaining the algorithmic process of news selection:
