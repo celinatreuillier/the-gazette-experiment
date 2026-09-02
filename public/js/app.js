@@ -486,7 +486,7 @@
         dom.timerCounter.textContent = '00:00 (Unlocked)';
         dom.explorationTimerBadge.classList.add('ready');
         dom.btnProceedToPostSurvey.removeAttribute('disabled');
-        dom.btnProceedToPostSurvey.textContent = 'Continue to Survey ✅';
+        dom.btnProceedToPostSurvey.textContent = 'Continue to Survey';
       }
 
       // Heartbeat telemetry log every 30s
