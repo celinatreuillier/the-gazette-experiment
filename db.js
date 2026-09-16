@@ -256,6 +256,45 @@ function getAdminStats() {
     SELECT * FROM participants ORDER BY created_at DESC LIMIT 50
   `).all();
 
+  // Attach attention check summary to recent participants
+  const surveyRows = db.prepare(`SELECT participant_id, survey_type, answers_json FROM survey_responses`).all();
+  const surveysByParticipant = {};
+  surveyRows.forEach(s => {
+    if (!surveysByParticipant[s.participant_id]) {
+      surveysByParticipant[s.participant_id] = {};
+    }
+    surveysByParticipant[s.participant_id][s.survey_type] = s.answers_json;
+  });
+
+  recentParticipants.forEach(p => {
+    const pSurveys = surveysByParticipant[p.id] || {};
+    let prePassed = null;
+    let postPassed = null;
+
+    if (pSurveys.pre_survey) {
+      try {
+        const parsed = JSON.parse(pSurveys.pre_survey);
+        if (parsed.pre_attention_check !== undefined) {
+          prePassed = String(parsed.pre_attention_check) === '4';
+        }
+      } catch (e) {}
+    }
+
+    if (pSurveys.post_survey) {
+      try {
+        const parsed = JSON.parse(pSurveys.post_survey);
+        if (parsed.post_attention_check !== undefined) {
+          postPassed = String(parsed.post_attention_check) === '3';
+        }
+      } catch (e) {}
+    }
+
+    p.attention_checks = {
+      pre_passed: prePassed,
+      post_passed: postPassed
+    };
+  });
+
   // Aggregate reading time per article per condition
   const articleEngagement = db.prepare(`
     SELECT 

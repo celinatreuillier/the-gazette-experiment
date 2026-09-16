@@ -284,6 +284,10 @@ app.get('/api/admin/export/csv', (req, res) => {
     const headers = [
       'participant_id', 'prolific_id', 'study_id', 'session_id', 'condition', 'status', 'study_created_at', 'study_completed_at',
       'total_articles_clicked', 'total_dwell_time_seconds', 'avg_scroll_depth_pct', 'transparency_drawer_interactions',
+      // Attention Checks
+      'pre_attention_check', 'pre_attention_check_passed',
+      'post_attention_check', 'post_attention_check_passed',
+      'all_attention_checks_passed',
       // Pre-Survey Q1: News Frequency
       'pre_q1_news_frequency',
       // Pre-Survey Q2: Topic Interests (1-5)
@@ -297,26 +301,15 @@ app.get('/api/admin/export/csv', (req, res) => {
       // Pre-Survey Q4: Decision elements to open article (1-5)
       'pre_q4_decide_topic', 'pre_q4_decide_title', 'pre_q4_decide_short_desc', 'pre_q4_decide_source',
       'pre_q4_decide_useful', 'pre_q4_decide_original', 'pre_q4_decide_emotionally_engaging',
-      // Pre-Survey Q5: Online Recommendation Frequency (1-5)
-      'pre_q5_recommendation_frequency',
-      // Post-Survey Questions (Q1 - Q13)
-      'post_q1_realism',
-      'post_q2_decision_ease',
-      'post_q3_interesting',
-      'post_q4_relevance',
-      'post_q5_noticed_extra_info',
-      'post_q6_extra_info_usefulness',
-      'post_q7_extra_info_clarity',
-      'post_q8_extra_info_trust',
-      'post_q9_remember_editor',
-      'post_q9_remember_algorithm',
-      'post_q9_remember_explanation',
-      'post_q9_remember_do_not_remember',
-      'post_q9_remember_did_not_see',
-      'post_q10_familiarity_recommendations',
-      'post_q11_familiarity_gen_ai',
-      'post_q12_frequency_gen_ai',
-      'post_q13_open_feedback'
+      // Pre-Survey Q6: Online Recommendation Frequency (1-5)
+      'pre_q6_recommendation_frequency',
+      // Post-Survey Questions (Q1 - Q7)
+      'post_q1_transparency_clarity',
+      'post_q2_trust_recommendations',
+      'post_q3_perceived_fairness',
+      'post_q4_usability_ease',
+      'post_q6_overall_satisfaction',
+      'post_q7_open_feedback'
     ];
 
     // Compute aggregated metrics per participant
@@ -330,28 +323,19 @@ app.get('/api/admin/export/csv', (req, res) => {
       const avgScroll = scrollEvents.length > 0 ? (scrollEvents.reduce((s, e) => s + (Number(e.scroll_percentage) || 0), 0) / scrollEvents.length).toFixed(1) : 0;
       const transparencyClicks = pEvents.filter(e => e.event_type === 'transparency_modal_open').length;
 
-      let preQ1 = '', preQ5 = '';
+      let preAttentionCheck = '', preAttentionPassed = '';
+      let postAttentionCheck = '', postAttentionPassed = '';
+      let preQ1 = '', preQ6 = '';
       let preQ2 = { politics: '', economy: '', health: '', science_tech: '', environment: '', education: '', culture: '', lifestyle: '', sports: '', travel: '', food: '', crime: '', local: '', international: '' };
       let preQ3 = { stay_updated: '', understand_issue: '', broader_perspective: '', entertaining: '', inspiring_constructive: '', follow_trends: '' };
       let preQ4 = { topic: '', title: '', short_desc: '', source: '', useful: '', original: '', emotionally_engaging: '' };
 
       let post = {
-        realism: '',
-        decision_ease: '',
-        interesting: '',
-        relevance: '',
-        noticed_extra_info: '',
-        extra_info_usefulness: '',
-        extra_info_clarity: '',
-        extra_info_trust: '',
-        remember_editor: '',
-        remember_algorithm: '',
-        remember_explanation: '',
-        remember_do_not_remember: '',
-        remember_did_not_see: '',
-        familiarity_recommendations: '',
-        familiarity_gen_ai: '',
-        frequency_gen_ai: '',
+        transparency_clarity: '',
+        trust_recommendations: '',
+        perceived_fairness: '',
+        usability_ease: '',
+        overall_satisfaction: '',
         open_feedback: ''
       };
 
@@ -360,7 +344,11 @@ app.get('/api/admin/export/csv', (req, res) => {
           const parsed = JSON.parse(s.answers_json);
           if (s.survey_type === 'pre_survey') {
             preQ1 = parsed.news_frequency || '';
-            preQ5 = parsed.recommendation_frequency || '';
+            preQ6 = parsed.recommendation_frequency || '';
+            preAttentionCheck = parsed.pre_attention_check || '';
+            if (preAttentionCheck !== '') {
+              preAttentionPassed = String(preAttentionCheck) === '4' ? 1 : 0;
+            }
 
             // Q2 Topics
             preQ2.politics = parsed.topic_politics || '';
@@ -395,26 +383,27 @@ app.get('/api/admin/export/csv', (req, res) => {
             preQ4.original = parsed.decide_original || '';
             preQ4.emotionally_engaging = parsed.decide_emotionally_engaging || '';
           } else if (s.survey_type === 'post_survey') {
-            post.realism = parsed.post_realism || '';
-            post.decision_ease = parsed.post_decision_ease || '';
-            post.interesting = parsed.post_interesting || '';
-            post.relevance = parsed.post_relevance || '';
-            post.noticed_extra_info = parsed.post_noticed_extra_info || '';
-            post.extra_info_usefulness = parsed.post_extra_info_usefulness || '';
-            post.extra_info_clarity = parsed.post_extra_info_clarity || '';
-            post.extra_info_trust = parsed.post_extra_info_trust || '';
-            post.remember_editor = parsed.remember_editor || '';
-            post.remember_algorithm = parsed.remember_algorithm || '';
-            post.remember_explanation = parsed.remember_explanation || '';
-            post.remember_do_not_remember = parsed.remember_do_not_remember || '';
-            post.remember_did_not_see = parsed.remember_did_not_see || '';
-            post.familiarity_recommendations = parsed.post_familiarity_recommendations || '';
-            post.familiarity_gen_ai = parsed.post_familiarity_gen_ai || '';
-            post.frequency_gen_ai = parsed.post_frequency_gen_ai || '';
-            post.open_feedback = parsed.post_open_feedback || '';
+            postAttentionCheck = parsed.post_attention_check || '';
+            if (postAttentionCheck !== '') {
+              postAttentionPassed = String(postAttentionCheck) === '3' ? 1 : 0;
+            }
+
+            post.transparency_clarity = parsed.transparency_clarity || parsed.post_transparency_clarity || parsed.post_realism || '';
+            post.trust_recommendations = parsed.trust_recommendations || parsed.post_trust_recommendations || parsed.post_decision_ease || '';
+            post.perceived_fairness = parsed.perceived_fairness || parsed.post_perceived_fairness || parsed.post_interesting || '';
+            post.usability_ease = parsed.usability_ease || parsed.post_usability_ease || parsed.post_relevance || '';
+            post.overall_satisfaction = parsed.overall_satisfaction || parsed.post_overall_satisfaction || '';
+            post.open_feedback = parsed.open_feedback || parsed.post_open_feedback || '';
           }
         } catch (err) {}
       });
+
+      let allAttentionPassed = '';
+      if (preAttentionPassed !== '' || postAttentionPassed !== '') {
+        const preOk = preAttentionPassed === '' || preAttentionPassed === 1;
+        const postOk = postAttentionPassed === '' || postAttentionPassed === 1;
+        allAttentionPassed = (preAttentionPassed === 1 && postAttentionPassed === 1) ? 1 : 0;
+      }
 
       return [
         escapeCsv(p.id),
@@ -429,6 +418,12 @@ app.get('/api/admin/export/csv', (req, res) => {
         escapeCsv(Math.round(totalDwellMs / 1000)),
         escapeCsv(avgScroll),
         escapeCsv(transparencyClicks),
+        // Attention Checks
+        escapeCsv(preAttentionCheck),
+        escapeCsv(preAttentionPassed),
+        escapeCsv(postAttentionCheck),
+        escapeCsv(postAttentionPassed),
+        escapeCsv(allAttentionPassed),
         // Pre-Survey Q1
         escapeCsv(preQ1),
         // Pre-Survey Q2
@@ -442,25 +437,14 @@ app.get('/api/admin/export/csv', (req, res) => {
         // Pre-Survey Q4
         escapeCsv(preQ4.topic), escapeCsv(preQ4.title), escapeCsv(preQ4.short_desc), escapeCsv(preQ4.source),
         escapeCsv(preQ4.useful), escapeCsv(preQ4.original), escapeCsv(preQ4.emotionally_engaging),
-        // Pre-Survey Q5
-        escapeCsv(preQ5),
-        // Post-Survey Q1 - Q13
-        escapeCsv(post.realism),
-        escapeCsv(post.decision_ease),
-        escapeCsv(post.interesting),
-        escapeCsv(post.relevance),
-        escapeCsv(post.noticed_extra_info),
-        escapeCsv(post.extra_info_usefulness),
-        escapeCsv(post.extra_info_clarity),
-        escapeCsv(post.extra_info_trust),
-        escapeCsv(post.remember_editor),
-        escapeCsv(post.remember_algorithm),
-        escapeCsv(post.remember_explanation),
-        escapeCsv(post.remember_do_not_remember),
-        escapeCsv(post.remember_did_not_see),
-        escapeCsv(post.familiarity_recommendations),
-        escapeCsv(post.familiarity_gen_ai),
-        escapeCsv(post.frequency_gen_ai),
+        // Pre-Survey Q6
+        escapeCsv(preQ6),
+        // Post-Survey Q1 - Q7
+        escapeCsv(post.transparency_clarity),
+        escapeCsv(post.trust_recommendations),
+        escapeCsv(post.perceived_fairness),
+        escapeCsv(post.usability_ease),
+        escapeCsv(post.overall_satisfaction),
         escapeCsv(post.open_feedback)
       ].join(',');
     });

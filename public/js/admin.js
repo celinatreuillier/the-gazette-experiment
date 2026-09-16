@@ -82,11 +82,26 @@
         const statusClass = isComp ? 'completed' : 'in_progress';
         const statusText = isComp ? 'Completed' : (p.status || 'In Progress');
 
+        // Attention check badge
+        let attnBadge = '—';
+        if (p.attention_checks) {
+          const { pre_passed, post_passed } = p.attention_checks;
+          if (pre_passed === true && post_passed === true) {
+            attnBadge = '<span class="badge-status completed">Passed (2/2)</span>';
+          } else if (pre_passed === false || post_passed === false) {
+            const passedNum = (pre_passed === true ? 1 : 0) + (post_passed === true ? 1 : 0);
+            attnBadge = `<span class="badge-status" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);">Failed (${passedNum}/2)</span>`;
+          } else if (pre_passed === true && post_passed === null) {
+            attnBadge = '<span class="badge-status in_progress">Pre passed (1/1)</span>';
+          }
+        }
+
         row.innerHTML = `
           <td style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;">#${p.id}</td>
           <td style="font-family: 'JetBrains Mono', monospace; color: #cbd5e1;">${p.prolific_id}</td>
           <td><strong>${condLabels[p.condition] || p.condition}</strong></td>
           <td><span class="badge-status ${statusClass}">${statusText}</span></td>
+          <td>${attnBadge}</td>
           <td style="color: var(--text-muted); font-size: 0.8rem;">${formatDate(p.created_at)}</td>
           <td style="color: var(--text-muted); font-size: 0.8rem;">${p.completed_at ? formatDate(p.completed_at) : '—'}</td>
         `;

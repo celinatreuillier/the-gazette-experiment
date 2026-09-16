@@ -551,9 +551,36 @@
             </div>
           </div>
 
-          <!-- Q5: Use of Personalized Recommendations Online -->
+          <!-- Q5: Attention Check -->
           <div class="question-card">
-            <p class="question-text">5. How often do you use personalized recommendations online?</p>
+            <p class="question-text">5. To ensure you are reading the questions carefully, please select 'Agree' in the following list of answers.</p>
+            <div class="likert-scale">
+              <label class="likert-option">
+                <input type="radio" name="pre_attention_check" value="1" required>
+                <span><strong>1</strong><br>Strongly Disagree</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="pre_attention_check" value="2">
+                <span><strong>2</strong><br>Disagree</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="pre_attention_check" value="3">
+                <span><strong>3</strong><br>Neutral</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="pre_attention_check" value="4">
+                <span><strong>4</strong><br>Agree</span>
+              </label>
+              <label class="likert-option">
+                <input type="radio" name="pre_attention_check" value="5">
+                <span><strong>5</strong><br>Strongly Agree</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q6: Use of Personalized Recommendations Online -->
+          <div class="question-card">
+            <p class="question-text">6. How often do you use personalized recommendations online?</p>
             <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 0.75rem;">
               This can include news websites, video platforms, music apps, shopping websites, or social media feeds.
             </p>
@@ -821,9 +848,26 @@
             </div>
           </div>
 
-          <!-- Q5: Overall Satisfaction -->
+          <!-- Q5: Attention Check -->
           <div class="question-card">
-            <p class="question-text">5. Overall, how satisfied were you with your news reading experience in this
+            <p class="question-text">5. To ensure you are reading the questions carefully, please select 'Neutral' in the following list of answers.</p>
+            <div class="likert-scale">
+              <label class="likert-option"><input type="radio" name="post_attention_check" value="1"
+                  required><span>1<br>Strongly Disagree</span></label>
+              <label class="likert-option"><input type="radio" name="post_attention_check"
+                  value="2"><span>2<br>Disagree</span></label>
+              <label class="likert-option"><input type="radio" name="post_attention_check"
+                  value="3"><span>3<br>Neutral</span></label>
+              <label class="likert-option"><input type="radio" name="post_attention_check"
+                  value="4"><span>4<br>Agree</span></label>
+              <label class="likert-option"><input type="radio" name="post_attention_check" value="5"><span>5<br>Strongly
+                  Agree</span></label>
+            </div>
+          </div>
+
+          <!-- Q6: Overall Satisfaction -->
+          <div class="question-card">
+            <p class="question-text">6. Overall, how satisfied were you with your news reading experience in this
               application?</p>
             <div class="likert-scale">
               <label class="likert-option"><input type="radio" name="overall_satisfaction" value="1"
@@ -839,9 +883,9 @@
             </div>
           </div>
 
-          <!-- Q6: Qualitative Open Feedback -->
+          <!-- Q7: Qualitative Open Feedback -->
           <div class="question-card">
-            <p class="question-text">6. (Optional) What did you notice or feel about how articles were curated and
+            <p class="question-text">7. (Optional) What did you notice or feel about how articles were curated and
               presented to you?</p>
             <textarea class="form-textarea" name="open_feedback"
               placeholder="Write any additional observations or comments here..."></textarea>
