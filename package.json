@@ -11,5 +11,8 @@
     "express": "^4.19.2",
     "cors": "^2.8.5",
     "better-sqlite3": "^11.3.0"
+  },
+  "allowScripts": {
+    "better-sqlite3@11.10.0": true
   }
 }

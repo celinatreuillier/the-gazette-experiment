@@ -14,7 +14,9 @@ let db;
 try {
   const Database = require('better-sqlite3');
   const bDb = new Database(DB_PATH);
+  // Set WAL mode AND busy_timeout buffer
   bDb.pragma('journal_mode = WAL');
+  bDb.pragma('busy_timeout = 5000');
   db = {
     exec: (sql) => bDb.exec(sql),
     prepare: (sql) => {
@@ -31,6 +33,11 @@ try {
   console.log('[DB] Falling back to node:sqlite:', err.message);
   const { DatabaseSync } = require('node:sqlite');
   const syncDb = new DatabaseSync(DB_PATH);
+
+  // Apply pragmas to node:sqlite fallback as well
+  syncDb.exec('PRAGMA journal_mode = WAL;');
+  syncDb.exec('PRAGMA busy_timeout = 5000;');
+
   db = {
     exec: (sql) => syncDb.exec(sql),
     prepare: (sql) => {
