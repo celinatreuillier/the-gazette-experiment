@@ -62,7 +62,7 @@ function filterNewsForCondition(articles, condition) {
 app.get('/api/config', (req, res) => {
   try {
     const minSeconds = parseInt(getConfig('min_exploration_seconds') || '120', 10);
-    const completionCode = getConfig('prolific_completion_code') || 'C19X8A9L';
+    const completionCode = getConfig('prolific_completion_code') || 'C173R72D';
     const completionUrl = getConfig('prolific_completion_url') || `https://app.prolific.com/submissions/complete?cc=${completionCode}`;
 
     res.json({
@@ -213,7 +213,7 @@ app.post('/api/participant/complete', (req, res) => {
       metadata: { timestamp: new Date().toISOString() }
     });
 
-    const completionCode = getConfig('prolific_completion_code') || 'C19X8A9L';
+    const completionCode = getConfig('prolific_completion_code') || 'C173R72D';
     const completionUrl = getConfig('prolific_completion_url') || `https://app.prolific.com/submissions/complete?cc=${completionCode}`;
 
     res.json({
