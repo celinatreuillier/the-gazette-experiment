@@ -105,8 +105,8 @@ const seedConfig = (key, defaultValue) => {
 };
 
 seedConfig('min_exploration_seconds', '120'); // Minimum 2 minutes before unlocking next survey
-seedConfig('prolific_completion_code', 'C19X8A9L');
-seedConfig('prolific_completion_url', 'https://app.prolific.com/submissions/complete?cc=C19X8A9L');
+seedConfig('prolific_completion_code', 'C173R72D');
+seedConfig('prolific_completion_url', 'https://app.prolific.com/submissions/complete?cc=C173R72D');
 
 /**
  * Assigns a condition (1, 2, or 3) using balanced minimum-count allocation.
