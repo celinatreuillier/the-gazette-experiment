@@ -96,17 +96,18 @@ db.exec(`
   );
 `);
 
-// Seed default study configuration
-const seedConfig = (key, defaultValue) => {
-  const existing = db.prepare('SELECT value FROM study_config WHERE key = ?').get(key);
-  if (!existing) {
-    db.prepare('INSERT INTO study_config (key, value) VALUES (?, ?)').run(key, defaultValue);
-  }
+// Set / seed study configuration (updates on server restart if changed)
+const setConfig = (key, value) => {
+  db.prepare(`
+    INSERT INTO study_config (key, value)
+    VALUES (?, ?)
+    ON CONFLICT(key) DO UPDATE SET value = excluded.value
+  `).run(key, value);
 };
 
-seedConfig('min_exploration_seconds', '120'); // Minimum 2 minutes before unlocking next survey
-seedConfig('prolific_completion_code', 'C173R72D');
-seedConfig('prolific_completion_url', 'https://app.prolific.com/submissions/complete?cc=C173R72D');
+setConfig('min_exploration_seconds', '120'); // Minimum 2 minutes before unlocking next survey
+setConfig('prolific_completion_code', 'C173R72D');
+setConfig('prolific_completion_url', 'https://app.prolific.com/submissions/complete?cc=C173R72D');
 
 /**
  * Assigns a condition (1, 2, or 3) using balanced minimum-count allocation.
@@ -347,6 +348,7 @@ module.exports = {
   saveSurveyResponse,
   logTelemetryEvent,
   getConfig,
+  setConfig,
   getAdminStats,
   getAllDataForExport
 };
