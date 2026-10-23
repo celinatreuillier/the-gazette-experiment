@@ -298,14 +298,14 @@
     const factorAlgorithm = document.querySelector('.cond-factor-algorithm');
     const factorExplanation = document.querySelector('.cond-factor-explanation');
 
-    if (condition === 1) {
-      // Condition 1: Control (no icons)
-      if (qIconMeaningCard) {
-        qIconMeaningCard.style.display = 'none';
-        const testRadios = qIconMeaningCard.querySelectorAll('input[type="radio"]');
-        testRadios.forEach(r => { r.required = false; r.checked = false; });
-      }
+    // Q1c icon test starts hidden for all conditions until participant selects Yes in 1a
+    if (qIconMeaningCard) {
+      qIconMeaningCard.style.display = 'none';
+      const testRadios = qIconMeaningCard.querySelectorAll('input[type="radio"]');
+      testRadios.forEach(r => { r.required = false; r.checked = false; });
+    }
 
+    if (condition === 1) {
       // Factors in Q3: hide condition-specific factors
       if (factorEditor) {
         factorEditor.style.display = 'none';
@@ -329,16 +329,15 @@
         iconsInfluenceRadios.forEach(r => { r.required = false; r.checked = false; });
       }
     } else if (condition === 2) {
-      // Condition 2: Source Icons (Standard Robot Icon)
+      // Prepare Condition 2 Icon and Options for 1c (shown only if participant answers Yes to 1a)
       if (qIconMeaningCard) {
-        qIconMeaningCard.style.display = 'block';
         if (exampleIconDisplay) {
           exampleIconDisplay.innerHTML = getCondition2Icon('algorithm');
         }
         if (iconMeaningOptionsContainer) {
           iconMeaningOptionsContainer.innerHTML = `
             <label class="likert-option">
-              <input type="radio" name="icon_meaning_test" value="selected_by_algorithm" required>
+              <input type="radio" name="icon_meaning_test" value="selected_by_algorithm">
               <span>The article was selected by an algorithm</span>
             </label>
             <label class="likert-option">
@@ -386,16 +385,15 @@
         }
       }
     } else if (condition === 3) {
-      // Condition 3: Explanation Icons (Standard Trending Icon)
+      // Prepare Condition 3 Icon and Options for 1c (shown only if participant answers Yes to 1a)
       if (qIconMeaningCard) {
-        qIconMeaningCard.style.display = 'block';
         if (exampleIconDisplay) {
           exampleIconDisplay.innerHTML = getCondition3Icon('T');
         }
         if (iconMeaningOptionsContainer) {
           iconMeaningOptionsContainer.innerHTML = `
             <label class="likert-option">
-              <input type="radio" name="icon_meaning_test" value="trending_among_readers" required>
+              <input type="radio" name="icon_meaning_test" value="trending_among_readers">
               <span>The article is trending among readers</span>
             </label>
             <label class="likert-option">
@@ -441,6 +439,16 @@
         if (iconsInfluenceRadios.length > 0) {
           iconsInfluenceRadios[0].required = true;
         }
+      }
+    }
+
+    // Check if 1a was already answered "Yes" (e.g. if setup is called after user selection)
+    const active1aYes = document.querySelector('input[name="notice_icons"]:checked');
+    if (active1aYes && active1aYes.value === 'yes' && (condition === 2 || condition === 3)) {
+      if (qIconMeaningCard) {
+        qIconMeaningCard.style.display = 'block';
+        const firstMeaningRadio = qIconMeaningCard.querySelector('input[name="icon_meaning_test"]');
+        if (firstMeaningRadio) firstMeaningRadio.required = true;
       }
     }
   }
@@ -940,17 +948,40 @@
   const noticeIconsRadios = document.querySelectorAll('input[name="notice_icons"]');
   const qIconsIndicatedCard = document.getElementById('qIconsIndicatedCard');
   const iconsIndicatedRadios = document.querySelectorAll('input[name="icons_indicated"]');
+  const qIconMeaningCard = document.getElementById('qIconMeaningCard');
 
   noticeIconsRadios.forEach(radio => {
     radio.addEventListener('change', (e) => {
       if (e.target.value === 'yes') {
+        // Show 1b
         if (qIconsIndicatedCard) {
           qIconsIndicatedCard.style.display = 'block';
         }
         if (iconsIndicatedRadios.length > 0) {
           iconsIndicatedRadios[0].required = true;
         }
+
+        // Show 1c ONLY for Condition 2 and Condition 3
+        if (state.condition === 2 || state.condition === 3) {
+          if (qIconMeaningCard) {
+            qIconMeaningCard.style.display = 'block';
+            const meaningRadios = qIconMeaningCard.querySelectorAll('input[name="icon_meaning_test"]');
+            if (meaningRadios.length > 0) {
+              meaningRadios[0].required = true;
+            }
+          }
+        } else {
+          if (qIconMeaningCard) {
+            qIconMeaningCard.style.display = 'none';
+            const meaningRadios = qIconMeaningCard.querySelectorAll('input[name="icon_meaning_test"]');
+            meaningRadios.forEach(r => {
+              r.required = false;
+              r.checked = false;
+            });
+          }
+        }
       } else {
+        // Participant selected 'no' or 'not_sure': hide 1b and 1c
         if (qIconsIndicatedCard) {
           qIconsIndicatedCard.style.display = 'none';
         }
@@ -958,6 +989,15 @@
           r.required = false;
           r.checked = false;
         });
+
+        if (qIconMeaningCard) {
+          qIconMeaningCard.style.display = 'none';
+          const meaningRadios = qIconMeaningCard.querySelectorAll('input[name="icon_meaning_test"]');
+          meaningRadios.forEach(r => {
+            r.required = false;
+            r.checked = false;
+          });
+        }
       }
     });
   });
