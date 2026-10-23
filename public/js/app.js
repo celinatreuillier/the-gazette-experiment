@@ -10,7 +10,7 @@
     sessionId: null,
     participantId: null,
     condition: 1, // 1: Control, 2: Badges, 3: Deep Transparency
-    minExplorationSeconds: 120,
+    minExplorationSeconds: 60,
     explorationSecondsElapsed: 0,
     timerInterval: null,
     articles: [],
@@ -74,6 +74,18 @@
     modalExplanationText: document.getElementById('modalExplanationText'),
     modalMetricsContainer: document.getElementById('modalMetricsContainer'),
     modalFactorsContainer: document.getElementById('modalFactorsContainer'),
+
+    // Post-Survey Elements
+    formPostSurvey: document.getElementById('formPostSurvey'),
+    qNoticeIconsCard: document.getElementById('qNoticeIconsCard'),
+    qIconsIndicatedCard: document.getElementById('qIconsIndicatedCard'),
+    qIconMeaningCard: document.getElementById('qIconMeaningCard'),
+    exampleIconDisplay: document.getElementById('exampleIconDisplay'),
+    iconMeaningOptionsContainer: document.getElementById('iconMeaningOptionsContainer'),
+    clickFactorsList: document.getElementById('clickFactorsList'),
+    clickFactorsCounter: document.getElementById('clickFactorsCounter'),
+    qIconsInfluenceCard: document.getElementById('qIconsInfluenceCard'),
+    qIconsInfluenceDetailsWrap: document.getElementById('qIconsInfluenceDetailsWrap'),
 
     // Completion
     finalCompletionCode: document.getElementById('finalCompletionCode'),
@@ -273,6 +285,166 @@
     }
   }
 
+  // Dynamic Condition-Specific Configuration for Post-Questionnaire
+  function setupPostSurvey(condition) {
+    const qIconMeaningCard = document.getElementById('qIconMeaningCard');
+    const exampleIconDisplay = document.getElementById('exampleIconDisplay');
+    const iconMeaningOptionsContainer = document.getElementById('iconMeaningOptionsContainer');
+    const qIconsInfluenceCard = document.getElementById('qIconsInfluenceCard');
+    const iconsInfluenceRadios = document.querySelectorAll('input[name="icons_influenced_selection"]');
+
+    // Q3 condition-specific checkboxes
+    const factorEditor = document.querySelector('.cond-factor-editor');
+    const factorAlgorithm = document.querySelector('.cond-factor-algorithm');
+    const factorExplanation = document.querySelector('.cond-factor-explanation');
+
+    if (condition === 1) {
+      // Condition 1: Control (no icons)
+      if (qIconMeaningCard) {
+        qIconMeaningCard.style.display = 'none';
+        const testRadios = qIconMeaningCard.querySelectorAll('input[type="radio"]');
+        testRadios.forEach(r => { r.required = false; r.checked = false; });
+      }
+
+      // Factors in Q3: hide condition-specific factors
+      if (factorEditor) {
+        factorEditor.style.display = 'none';
+        const input = factorEditor.querySelector('input');
+        if (input) { input.checked = false; input.disabled = true; }
+      }
+      if (factorAlgorithm) {
+        factorAlgorithm.style.display = 'none';
+        const input = factorAlgorithm.querySelector('input');
+        if (input) { input.checked = false; input.disabled = true; }
+      }
+      if (factorExplanation) {
+        factorExplanation.style.display = 'none';
+        const input = factorExplanation.querySelector('input');
+        if (input) { input.checked = false; input.disabled = true; }
+      }
+
+      // Q4: Hide icons influence card
+      if (qIconsInfluenceCard) {
+        qIconsInfluenceCard.style.display = 'none';
+        iconsInfluenceRadios.forEach(r => { r.required = false; r.checked = false; });
+      }
+    } else if (condition === 2) {
+      // Condition 2: Source Icons (Standard Robot Icon)
+      if (qIconMeaningCard) {
+        qIconMeaningCard.style.display = 'block';
+        if (exampleIconDisplay) {
+          exampleIconDisplay.innerHTML = getCondition2Icon('algorithm');
+        }
+        if (iconMeaningOptionsContainer) {
+          iconMeaningOptionsContainer.innerHTML = `
+            <label class="likert-option">
+              <input type="radio" name="icon_meaning_test" value="selected_by_algorithm" required>
+              <span>The article was selected by an algorithm</span>
+            </label>
+            <label class="likert-option">
+              <input type="radio" name="icon_meaning_test" value="selected_by_editor">
+              <span>The article was selected by a human editor</span>
+            </label>
+            <label class="likert-option">
+              <input type="radio" name="icon_meaning_test" value="trending">
+              <span>The article is trending</span>
+            </label>
+            <label class="likert-option">
+              <input type="radio" name="icon_meaning_test" value="personal_interests">
+              <span>The article matches my personal interests</span>
+            </label>
+            <label class="likert-option">
+              <input type="radio" name="icon_meaning_test" value="dont_know">
+              <span>I don’t know</span>
+            </label>
+          `;
+        }
+      }
+
+      // Factors in Q3: show editor and algorithm, hide explanation
+      if (factorEditor) {
+        factorEditor.style.display = '';
+        const input = factorEditor.querySelector('input');
+        if (input) { input.disabled = false; }
+      }
+      if (factorAlgorithm) {
+        factorAlgorithm.style.display = '';
+        const input = factorAlgorithm.querySelector('input');
+        if (input) { input.disabled = false; }
+      }
+      if (factorExplanation) {
+        factorExplanation.style.display = 'none';
+        const input = factorExplanation.querySelector('input');
+        if (input) { input.checked = false; input.disabled = true; }
+      }
+
+      // Q4: Show icons influence card
+      if (qIconsInfluenceCard) {
+        qIconsInfluenceCard.style.display = 'block';
+        if (iconsInfluenceRadios.length > 0) {
+          iconsInfluenceRadios[0].required = true;
+        }
+      }
+    } else if (condition === 3) {
+      // Condition 3: Explanation Icons (Standard Trending Icon)
+      if (qIconMeaningCard) {
+        qIconMeaningCard.style.display = 'block';
+        if (exampleIconDisplay) {
+          exampleIconDisplay.innerHTML = getCondition3Icon('T');
+        }
+        if (iconMeaningOptionsContainer) {
+          iconMeaningOptionsContainer.innerHTML = `
+            <label class="likert-option">
+              <input type="radio" name="icon_meaning_test" value="trending_among_readers" required>
+              <span>The article is trending among readers</span>
+            </label>
+            <label class="likert-option">
+              <input type="radio" name="icon_meaning_test" value="personal_interests">
+              <span>The article matches my personal interests</span>
+            </label>
+            <label class="likert-option">
+              <input type="radio" name="icon_meaning_test" value="similar_readers">
+              <span>The article was recommended based on similar readers</span>
+            </label>
+            <label class="likert-option">
+              <input type="radio" name="icon_meaning_test" value="selected_by_editor">
+              <span>The article was selected by a human editor</span>
+            </label>
+            <label class="likert-option">
+              <input type="radio" name="icon_meaning_test" value="dont_know">
+              <span>I don’t know</span>
+            </label>
+          `;
+        }
+      }
+
+      // Factors in Q3: show all
+      if (factorEditor) {
+        factorEditor.style.display = '';
+        const input = factorEditor.querySelector('input');
+        if (input) { input.disabled = false; }
+      }
+      if (factorAlgorithm) {
+        factorAlgorithm.style.display = '';
+        const input = factorAlgorithm.querySelector('input');
+        if (input) { input.disabled = false; }
+      }
+      if (factorExplanation) {
+        factorExplanation.style.display = '';
+        const input = factorExplanation.querySelector('input');
+        if (input) { input.disabled = false; }
+      }
+
+      // Q4: Show icons influence card
+      if (qIconsInfluenceCard) {
+        qIconsInfluenceCard.style.display = 'block';
+        if (iconsInfluenceRadios.length > 0) {
+          iconsInfluenceRadios[0].required = true;
+        }
+      }
+    }
+  }
+
   // Helper: Get URL Query Parameters
   function getUrlParams() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -392,6 +564,7 @@
 
         // Render condition-specific icon guides in Phase 3 instructions & header popover
         renderConditionIconGuides(state.condition);
+        setupPostSurvey(state.condition);
       }
 
       // 3. Fetch News articles for condition
@@ -758,16 +931,116 @@
     dom.btnProceedToPostSurvey.addEventListener('click', () => {
       closeCurrentArticle();
       clearInterval(state.timerInterval);
+      setupPostSurvey(state.condition);
       showStep(4, dom.viewPostSurvey);
     });
   }
+
+  // Question 1 Notice Icons change
+  const noticeIconsRadios = document.querySelectorAll('input[name="notice_icons"]');
+  const qIconsIndicatedCard = document.getElementById('qIconsIndicatedCard');
+  const iconsIndicatedRadios = document.querySelectorAll('input[name="icons_indicated"]');
+
+  noticeIconsRadios.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      if (e.target.value === 'yes') {
+        if (qIconsIndicatedCard) {
+          qIconsIndicatedCard.style.display = 'block';
+        }
+        if (iconsIndicatedRadios.length > 0) {
+          iconsIndicatedRadios[0].required = true;
+        }
+      } else {
+        if (qIconsIndicatedCard) {
+          qIconsIndicatedCard.style.display = 'none';
+        }
+        iconsIndicatedRadios.forEach(r => {
+          r.required = false;
+          r.checked = false;
+        });
+      }
+    });
+  });
+
+  // Question 3 Click Decision Factors (Max 3 Checkboxes Limiter & Counter)
+  const clickFactorsList = document.getElementById('clickFactorsList');
+  const clickFactorsCounter = document.getElementById('clickFactorsCounter');
+
+  if (clickFactorsList) {
+    clickFactorsList.addEventListener('change', () => {
+      const allCheckboxes = Array.from(clickFactorsList.querySelectorAll('input[type="checkbox"]'));
+      // Only consider visible checkboxes
+      const visibleCheckboxes = allCheckboxes.filter(cb => {
+        const item = cb.closest('.checkbox-item');
+        return item && item.style.display !== 'none';
+      });
+
+      const checkedCount = visibleCheckboxes.filter(cb => cb.checked).length;
+
+      if (clickFactorsCounter) {
+        clickFactorsCounter.textContent = `(Selected: ${checkedCount}/3)`;
+      }
+
+      if (checkedCount >= 3) {
+        visibleCheckboxes.forEach(cb => {
+          if (!cb.checked) {
+            cb.disabled = true;
+            const item = cb.closest('.checkbox-item');
+            if (item) item.classList.add('disabled');
+          }
+        });
+      } else {
+        visibleCheckboxes.forEach(cb => {
+          cb.disabled = false;
+          const item = cb.closest('.checkbox-item');
+          if (item) item.classList.remove('disabled');
+        });
+      }
+    });
+  }
+
+  // Question 4 Icons Influence Yes/No
+  const iconsInfluenceRadios = document.querySelectorAll('input[name="icons_influenced_selection"]');
+  const qIconsInfluenceDetailsWrap = document.getElementById('qIconsInfluenceDetailsWrap');
+  const iconsInfluenceDetailsText = document.querySelector('textarea[name="icons_influence_details"]');
+
+  iconsInfluenceRadios.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      if (e.target.value === 'yes') {
+        if (qIconsInfluenceDetailsWrap) {
+          qIconsInfluenceDetailsWrap.style.display = 'block';
+        }
+      } else {
+        if (qIconsInfluenceDetailsWrap) {
+          qIconsInfluenceDetailsWrap.style.display = 'none';
+        }
+        if (iconsInfluenceDetailsText) {
+          iconsInfluenceDetailsText.value = '';
+        }
+      }
+    });
+  });
 
   // Step 4: Post-Survey Form Submit
   if (dom.formPostSurvey) {
     dom.formPostSurvey.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // Validate Question 3 (click factors): at least 1 must be selected
+      const selectedFactors = Array.from(document.querySelectorAll('#clickFactorsList input[type="checkbox"]:checked'))
+        .map(cb => cb.value);
+      if (selectedFactors.length === 0) {
+        alert('Please select at least 1 factor (up to 3) for Question 3.');
+        const q3Card = document.getElementById('qClickFactorsCard');
+        if (q3Card) {
+          q3Card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+      }
+
       const formData = new FormData(dom.formPostSurvey);
       const answers = Object.fromEntries(formData.entries());
+      answers.click_factors = selectedFactors;
 
       try {
         // 1. Submit survey answers

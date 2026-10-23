@@ -37,7 +37,7 @@
       dom.statCompletedParticipants.textContent = `${completedCount} completed`;
       dom.statTotalEvents.textContent = stats.totalEvents;
       dom.statTotalSurveys.textContent = stats.totalSurveys;
-      dom.statMinTime.textContent = `${stats.config.min_exploration_seconds || 120}s`;
+      dom.statMinTime.textContent = `${stats.config.min_exploration_seconds || 60}s`;
 
       // Condition balance
       const condCounts = { 1: { total: 0, comp: 0 }, 2: { total: 0, comp: 0 }, 3: { total: 0, comp: 0 } };

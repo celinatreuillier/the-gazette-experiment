@@ -105,7 +105,7 @@ const setConfig = (key, value) => {
   `).run(key, value);
 };
 
-setConfig('min_exploration_seconds', '120'); // Minimum 2 minutes before unlocking next survey
+setConfig('min_exploration_seconds', '60'); // Minimum 1 minute before unlocking next survey
 setConfig('prolific_completion_code', 'C173R72D');
 setConfig('prolific_completion_url', 'https://app.prolific.com/submissions/complete?cc=C173R72D');
 
@@ -115,7 +115,7 @@ setConfig('prolific_completion_url', 'https://app.prolific.com/submissions/compl
  */
 function getBalancedCondition() {
   const counts = { 1: 0, 2: 0, 3: 0 };
-  
+
   // Count participants in each condition
   const rows = db.prepare(`
     SELECT condition, COUNT(*) as count 
@@ -285,7 +285,7 @@ function getAdminStats() {
         if (parsed.pre_attention_check !== undefined) {
           prePassed = String(parsed.pre_attention_check) === '4';
         }
-      } catch (e) {}
+      } catch (e) { }
     }
 
     if (pSurveys.post_survey) {
@@ -294,7 +294,7 @@ function getAdminStats() {
         if (parsed.post_attention_check !== undefined) {
           postPassed = String(parsed.post_attention_check) === '3';
         }
-      } catch (e) {}
+      } catch (e) { }
     }
 
     p.attention_checks = {

@@ -61,7 +61,7 @@ function filterNewsForCondition(articles, condition) {
 // 1. Get study public configuration
 app.get('/api/config', (req, res) => {
   try {
-    const minSeconds = parseInt(getConfig('min_exploration_seconds') || '120', 10);
+    const minSeconds = parseInt(getConfig('min_exploration_seconds') || '60', 10);
     const completionCode = getConfig('prolific_completion_code') || 'C173R72D';
     const completionUrl = getConfig('prolific_completion_url') || `https://app.prolific.com/submissions/complete?cc=${completionCode}`;
 
@@ -291,25 +291,30 @@ app.get('/api/admin/export/csv', (req, res) => {
       // Pre-Survey Q1: News Frequency
       'pre_q1_news_frequency',
       // Pre-Survey Q2: Topic Interests (1-5)
-      'pre_q2_topic_politics', 'pre_q2_topic_economy', 'pre_q2_topic_health', 'pre_q2_topic_science_tech',
-      'pre_q2_topic_environment', 'pre_q2_topic_education', 'pre_q2_topic_culture', 'pre_q2_topic_lifestyle',
-      'pre_q2_topic_sports', 'pre_q2_topic_travel', 'pre_q2_topic_food', 'pre_q2_topic_crime',
-      'pre_q2_topic_local', 'pre_q2_topic_international',
-      // Pre-Survey Q3: Goals when choosing news (1-5)
-      'pre_q3_goal_stay_updated', 'pre_q3_goal_understand_issue', 'pre_q3_goal_broader_perspective',
-      'pre_q3_goal_entertaining', 'pre_q3_goal_inspiring_constructive', 'pre_q3_goal_follow_trends',
-      // Pre-Survey Q4: Decision elements to open article (1-5)
-      'pre_q4_decide_topic', 'pre_q4_decide_title', 'pre_q4_decide_short_desc', 'pre_q4_decide_source',
-      'pre_q4_decide_useful', 'pre_q4_decide_original', 'pre_q4_decide_emotionally_engaging',
-      // Pre-Survey Q6: Online Recommendation Frequency (1-5)
-      'pre_q6_recommendation_frequency',
-      // Post-Survey Questions (Q1 - Q7)
-      'post_q1_transparency_clarity',
-      'post_q2_trust_recommendations',
-      'post_q3_perceived_fairness',
-      'post_q4_usability_ease',
-      'post_q6_overall_satisfaction',
-      'post_q7_open_feedback'
+      'pre_q2_topic_politics', 'pre_q2_topic_economy', 'pre_q2_topic_sports', 'pre_q2_topic_science', 'pre_q2_topic_lifestyle',
+      // Pre-Survey Q3: News App Experience & Trust (1-5)
+      'pre_q3_curated_editors', 'pre_q3_personalized_algo', 'pre_q3_trend_algo', 'pre_q3_trust_recommended',
+      // Pre-Survey Q5: Online Recommendation Frequency (1-5)
+      'pre_q5_recommendation_frequency',
+      // Pre-Survey Q6: Recommender System Understanding (1-5)
+      'pre_q6_recommender_system_understanding',
+      // Post-Survey Questions
+      'post_q1_notice_icons',
+      'post_q1b_icons_indicated',
+      'post_q1c_icon_meaning_test',
+      'post_q2_clarity_why_recommended',
+      'post_q2_confidence_system_ability',
+      'post_q2_rely_as_reliable_source',
+      'post_q2_overall_selection_trustworthy',
+      'post_q2_selected_fair_way',
+      'post_q2_steer_what_i_read',
+      'post_q2_matched_personal_interests',
+      'post_q2_control_over_content',
+      'post_q2_satisfied_experience',
+      'post_q3_click_factors',
+      'post_q4_icons_influenced_selection',
+      'post_q4_icons_influence_details',
+      'post_q5_open_feedback'
     ];
 
     // Compute aggregated metrics per participant
@@ -325,17 +330,26 @@ app.get('/api/admin/export/csv', (req, res) => {
 
       let preAttentionCheck = '', preAttentionPassed = '';
       let postAttentionCheck = '', postAttentionPassed = '';
-      let preQ1 = '', preQ6 = '';
-      let preQ2 = { politics: '', economy: '', health: '', science_tech: '', environment: '', education: '', culture: '', lifestyle: '', sports: '', travel: '', food: '', crime: '', local: '', international: '' };
-      let preQ3 = { stay_updated: '', understand_issue: '', broader_perspective: '', entertaining: '', inspiring_constructive: '', follow_trends: '' };
-      let preQ4 = { topic: '', title: '', short_desc: '', source: '', useful: '', original: '', emotionally_engaging: '' };
+      let preQ1 = '', preQ5Recommendation = '', preQ6Understanding = '';
+      let preQ2 = { politics: '', economy: '', sports: '', science: '', lifestyle: '' };
+      let preQ3 = { curated_editors: '', personalized_algo: '', trend_algo: '', trust_recommended: '' };
 
       let post = {
-        transparency_clarity: '',
-        trust_recommendations: '',
-        perceived_fairness: '',
-        usability_ease: '',
-        overall_satisfaction: '',
+        notice_icons: '',
+        icons_indicated: '',
+        icon_meaning_test: '',
+        clarity_why_recommended: '',
+        confidence_system_ability: '',
+        rely_as_reliable_source: '',
+        overall_selection_trustworthy: '',
+        selected_fair_way: '',
+        steer_what_i_read: '',
+        matched_personal_interests: '',
+        control_over_content: '',
+        satisfied_experience: '',
+        click_factors: '',
+        icons_influenced_selection: '',
+        icons_influence_details: '',
         open_feedback: ''
       };
 
@@ -344,55 +358,46 @@ app.get('/api/admin/export/csv', (req, res) => {
           const parsed = JSON.parse(s.answers_json);
           if (s.survey_type === 'pre_survey') {
             preQ1 = parsed.news_frequency || '';
-            preQ6 = parsed.recommendation_frequency || '';
+            preQ5Recommendation = parsed.recommendation_frequency || '';
+            preQ6Understanding = parsed.recommender_system_understanding || parsed.recommender_understanding || '';
             preAttentionCheck = parsed.pre_attention_check || '';
             if (preAttentionCheck !== '') {
               preAttentionPassed = String(preAttentionCheck) === '4' ? 1 : 0;
             }
 
-            // Q2 Topics
+            // Q2 Topics (5 Interface Categories)
             preQ2.politics = parsed.topic_politics || '';
             preQ2.economy = parsed.topic_economy || '';
-            preQ2.health = parsed.topic_health || '';
-            preQ2.science_tech = parsed.topic_science_tech || '';
-            preQ2.environment = parsed.topic_environment || '';
-            preQ2.education = parsed.topic_education || '';
-            preQ2.culture = parsed.topic_culture || '';
-            preQ2.lifestyle = parsed.topic_lifestyle || '';
             preQ2.sports = parsed.topic_sports || '';
-            preQ2.travel = parsed.topic_travel || '';
-            preQ2.food = parsed.topic_food || '';
-            preQ2.crime = parsed.topic_crime || '';
-            preQ2.local = parsed.topic_local || '';
-            preQ2.international = parsed.topic_international || '';
+            preQ2.science = parsed.topic_science || parsed.topic_science_tech || '';
+            preQ2.lifestyle = parsed.topic_lifestyle || '';
 
-            // Q3 Goals
-            preQ3.stay_updated = parsed.goal_stay_updated || '';
-            preQ3.understand_issue = parsed.goal_understand_issue || '';
-            preQ3.broader_perspective = parsed.goal_broader_perspective || '';
-            preQ3.entertaining = parsed.goal_entertaining || '';
-            preQ3.inspiring_constructive = parsed.goal_inspiring_constructive || '';
-            preQ3.follow_trends = parsed.goal_follow_trends || '';
-
-            // Q4 Decision Elements
-            preQ4.topic = parsed.decide_topic || '';
-            preQ4.title = parsed.decide_title || '';
-            preQ4.short_desc = parsed.decide_short_desc || '';
-            preQ4.source = parsed.decide_source || '';
-            preQ4.useful = parsed.decide_useful || '';
-            preQ4.original = parsed.decide_original || '';
-            preQ4.emotionally_engaging = parsed.decide_emotionally_engaging || '';
+            // Q3 Statements (News App Experience & Trust)
+            preQ3.curated_editors = parsed.curated_editors_valuable || '';
+            preQ3.personalized_algo = parsed.personalized_algo_valuable || '';
+            preQ3.trend_algo = parsed.trend_algo_valuable || '';
+            preQ3.trust_recommended = parsed.trust_recommended_news || '';
           } else if (s.survey_type === 'post_survey') {
             postAttentionCheck = parsed.post_attention_check || '';
             if (postAttentionCheck !== '') {
               postAttentionPassed = String(postAttentionCheck) === '3' ? 1 : 0;
             }
 
-            post.transparency_clarity = parsed.transparency_clarity || parsed.post_transparency_clarity || parsed.post_realism || '';
-            post.trust_recommendations = parsed.trust_recommendations || parsed.post_trust_recommendations || parsed.post_decision_ease || '';
-            post.perceived_fairness = parsed.perceived_fairness || parsed.post_perceived_fairness || parsed.post_interesting || '';
-            post.usability_ease = parsed.usability_ease || parsed.post_usability_ease || parsed.post_relevance || '';
-            post.overall_satisfaction = parsed.overall_satisfaction || parsed.post_overall_satisfaction || '';
+            post.notice_icons = parsed.notice_icons || '';
+            post.icons_indicated = parsed.icons_indicated || '';
+            post.icon_meaning_test = parsed.icon_meaning_test || '';
+            post.clarity_why_recommended = parsed.post_clarity_why_recommended || '';
+            post.confidence_system_ability = parsed.post_confidence_system_ability || '';
+            post.rely_as_reliable_source = parsed.post_rely_as_reliable_source || '';
+            post.overall_selection_trustworthy = parsed.post_overall_selection_trustworthy || '';
+            post.selected_fair_way = parsed.post_selected_fair_way || '';
+            post.steer_what_i_read = parsed.post_steer_what_i_read || '';
+            post.matched_personal_interests = parsed.post_matched_personal_interests || '';
+            post.control_over_content = parsed.post_control_over_content || '';
+            post.satisfied_experience = parsed.post_satisfied_experience || '';
+            post.click_factors = Array.isArray(parsed.click_factors) ? parsed.click_factors.join('; ') : (parsed.click_factors || '');
+            post.icons_influenced_selection = parsed.icons_influenced_selection || '';
+            post.icons_influence_details = parsed.icons_influence_details || '';
             post.open_feedback = parsed.open_feedback || parsed.post_open_feedback || '';
           }
         } catch (err) {}
@@ -426,25 +431,30 @@ app.get('/api/admin/export/csv', (req, res) => {
         escapeCsv(allAttentionPassed),
         // Pre-Survey Q1
         escapeCsv(preQ1),
-        // Pre-Survey Q2
-        escapeCsv(preQ2.politics), escapeCsv(preQ2.economy), escapeCsv(preQ2.health), escapeCsv(preQ2.science_tech),
-        escapeCsv(preQ2.environment), escapeCsv(preQ2.education), escapeCsv(preQ2.culture), escapeCsv(preQ2.lifestyle),
-        escapeCsv(preQ2.sports), escapeCsv(preQ2.travel), escapeCsv(preQ2.food), escapeCsv(preQ2.crime),
-        escapeCsv(preQ2.local), escapeCsv(preQ2.international),
-        // Pre-Survey Q3
-        escapeCsv(preQ3.stay_updated), escapeCsv(preQ3.understand_issue), escapeCsv(preQ3.broader_perspective),
-        escapeCsv(preQ3.entertaining), escapeCsv(preQ3.inspiring_constructive), escapeCsv(preQ3.follow_trends),
-        // Pre-Survey Q4
-        escapeCsv(preQ4.topic), escapeCsv(preQ4.title), escapeCsv(preQ4.short_desc), escapeCsv(preQ4.source),
-        escapeCsv(preQ4.useful), escapeCsv(preQ4.original), escapeCsv(preQ4.emotionally_engaging),
+        // Pre-Survey Q2 (5 Topics)
+        escapeCsv(preQ2.politics), escapeCsv(preQ2.economy), escapeCsv(preQ2.sports), escapeCsv(preQ2.science), escapeCsv(preQ2.lifestyle),
+        // Pre-Survey Q3 (News App Experience)
+        escapeCsv(preQ3.curated_editors), escapeCsv(preQ3.personalized_algo), escapeCsv(preQ3.trend_algo), escapeCsv(preQ3.trust_recommended),
+        // Pre-Survey Q5
+        escapeCsv(preQ5Recommendation),
         // Pre-Survey Q6
-        escapeCsv(preQ6),
-        // Post-Survey Q1 - Q7
-        escapeCsv(post.transparency_clarity),
-        escapeCsv(post.trust_recommendations),
-        escapeCsv(post.perceived_fairness),
-        escapeCsv(post.usability_ease),
-        escapeCsv(post.overall_satisfaction),
+        escapeCsv(preQ6Understanding),
+        // Post-Survey Questions
+        escapeCsv(post.notice_icons),
+        escapeCsv(post.icons_indicated),
+        escapeCsv(post.icon_meaning_test),
+        escapeCsv(post.clarity_why_recommended),
+        escapeCsv(post.confidence_system_ability),
+        escapeCsv(post.rely_as_reliable_source),
+        escapeCsv(post.overall_selection_trustworthy),
+        escapeCsv(post.selected_fair_way),
+        escapeCsv(post.steer_what_i_read),
+        escapeCsv(post.matched_personal_interests),
+        escapeCsv(post.control_over_content),
+        escapeCsv(post.satisfied_experience),
+        escapeCsv(post.click_factors),
+        escapeCsv(post.icons_influenced_selection),
+        escapeCsv(post.icons_influence_details),
         escapeCsv(post.open_feedback)
       ].join(',');
     });
