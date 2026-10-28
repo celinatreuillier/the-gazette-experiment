@@ -106,8 +106,8 @@ const setConfig = (key, value) => {
 };
 
 setConfig('min_exploration_seconds', '60'); // Minimum 1 minute before unlocking next survey
-setConfig('prolific_completion_code', 'C173R72D');
-setConfig('prolific_completion_url', 'https://app.prolific.com/submissions/complete?cc=C173R72D');
+setConfig('prolific_completion_code', 'CO1PJVQ6');
+setConfig('prolific_completion_url', 'https://app.prolific.com/submissions/complete?cc=CO1PJVQ6');
 
 /**
  * Assigns a condition (1, 2, or 3) using balanced minimum-count allocation.
