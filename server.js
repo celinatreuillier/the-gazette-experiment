@@ -9,7 +9,8 @@ const {
   logTelemetryEvent,
   getConfig,
   getAdminStats,
-  getAllDataForExport
+  getAllDataForExport,
+  resetExperimentData
 } = require('./db');
 
 const app = express();
@@ -240,6 +241,16 @@ app.get('/api/admin/stats', (req, res) => {
   }
 });
 
+// Admin reset all experiment data (participants, surveys, telemetry)
+app.post('/api/admin/reset', (req, res) => {
+  try {
+    resetExperimentData();
+    res.json({ success: true, message: 'All participant and experiment data has been reset successfully.' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // Helper for CSV escaping
 function escapeCsv(val) {
   if (val === null || val === undefined) return '""';
@@ -400,7 +411,7 @@ app.get('/api/admin/export/csv', (req, res) => {
             post.icons_influence_details = parsed.icons_influence_details || '';
             post.open_feedback = parsed.open_feedback || parsed.post_open_feedback || '';
           }
-        } catch (err) {}
+        } catch (err) { }
       });
 
       let allAttentionPassed = '';

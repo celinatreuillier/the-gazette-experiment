@@ -341,6 +341,29 @@ function getAllDataForExport() {
   return { participants, surveys, events };
 }
 
+/**
+ * Resets all participant, survey, and telemetry data.
+ * Keeps study_config intact.
+ */
+function resetExperimentData() {
+  db.exec(`
+    DELETE FROM telemetry_events;
+    DELETE FROM survey_responses;
+    DELETE FROM participants;
+  `);
+  try {
+    db.exec(`DELETE FROM sqlite_sequence WHERE name IN ('participants', 'survey_responses', 'telemetry_events');`);
+  } catch (e) {
+    // ignore if sqlite_sequence table does not exist
+  }
+  try {
+    db.exec(`VACUUM;`);
+  } catch (e) {
+    // ignore if vacuum fails
+  }
+  return { success: true };
+}
+
 module.exports = {
   db,
   getOrCreateParticipant,
@@ -350,5 +373,6 @@ module.exports = {
   getConfig,
   setConfig,
   getAdminStats,
-  getAllDataForExport
+  getAllDataForExport,
+  resetExperimentData
 };

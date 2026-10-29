@@ -100,6 +100,25 @@
       gap: 0.75rem;
       margin-top: 1.25rem;
     }
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      padding: 0.6rem 1.1rem;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      font-size: 0.88rem;
+    }
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.28);
+      border-color: rgba(239, 68, 68, 0.7);
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -114,9 +133,10 @@
           Real-time condition balance, telemetry tracking, and export center.
         </p>
       </div>
-      <div style="display: flex; gap: 0.75rem;">
+      <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
         <a href="/" target="_blank" class="btn-secondary">🔗 Open Study Preview</a>
         <button id="btnRefreshStats" class="btn-primary">🔄 Refresh Data</button>
+        <button id="btnResetDatabase" class="btn-danger">🗑️ Vider la base de données</button>
       </div>
     </div>
 
@@ -196,6 +216,22 @@
         <a href="/api/admin/export/json" class="btn-secondary" download>
           📦 Full JSON Dump
         </a>
+      </div>
+    </div>
+
+    <!-- Danger Zone: Reset Data -->
+    <div class="glass-panel" style="border-color: rgba(239, 68, 68, 0.35); background: rgba(239, 68, 68, 0.04);">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h2 class="section-heading" style="color: #f87171; margin-bottom: 0.35rem;">⚠️ Réinitialisation des Données</h2>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; max-width: 700px;">
+            Supprime définitivement tous les participants, questionnaires et événements d'interaction enregistrés.
+            La configuration Prolific et les paramètres restent intacts. Idéal avant de lancer une vraie vague d'expérimentation.
+          </p>
+        </div>
+        <button id="btnResetDatabaseSection" class="btn-danger" style="font-size: 0.95rem; padding: 0.75rem 1.4rem;">
+          🗑️ Vider toutes les données
+        </button>
       </div>
     </div>
 

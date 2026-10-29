@@ -18,7 +18,9 @@
     cond3Completed: document.getElementById('cond3Completed'),
 
     participantsTableBody: document.getElementById('participantsTableBody'),
-    btnRefreshStats: document.getElementById('btnRefreshStats')
+    btnRefreshStats: document.getElementById('btnRefreshStats'),
+    btnResetDatabase: document.getElementById('btnResetDatabase'),
+    btnResetDatabaseSection: document.getElementById('btnResetDatabaseSection')
   };
 
   async function loadAdminStats() {
@@ -124,7 +126,43 @@
     return isNaN(d.getTime()) ? isoStr : d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' ' + d.toLocaleDateString();
   }
 
+  async function handleResetDatabase() {
+    const confirmation = prompt(
+      "⚠️ ATTENTION : Vous êtes sur le point de supprimer TOUTES les données de l'expérience (participants, questionnaires, télémétrie).\n\nPour confirmer la suppression définitive, écrivez RESET ci-dessous :"
+    );
+
+    if (confirmation !== 'RESET') {
+      if (confirmation !== null) {
+        alert("Opération annulée : le mot saisi ne correspond pas à 'RESET'.");
+      }
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/admin/reset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      const data = await res.json();
+      if (!data.success) {
+        throw new Error(data.error || 'Erreur lors de la réinitialisation');
+      }
+
+      alert("✅ Base de données réinitialisée avec succès ! Tous les compteurs ont été remis à zéro.");
+      await loadAdminStats();
+    } catch (err) {
+      alert("❌ Échec de la réinitialisation : " + err.message);
+    }
+  }
+
   dom.btnRefreshStats.addEventListener('click', loadAdminStats);
+
+  if (dom.btnResetDatabase) {
+    dom.btnResetDatabase.addEventListener('click', handleResetDatabase);
+  }
+  if (dom.btnResetDatabaseSection) {
+    dom.btnResetDatabaseSection.addEventListener('click', handleResetDatabase);
+  }
 
   // Initial load
   loadAdminStats();
